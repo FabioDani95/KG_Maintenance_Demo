@@ -222,7 +222,7 @@ if __name__ == '__main__':
     print("  KNOWLEDGE GRAPH MAINTENANCE - Backend Server")
     print("=" * 60)
     print()
-    print("  Server starting on: http://localhost:5000")
+    print("  Server starting on: http://localhost:8000")
     print()
     print("  API Endpoints:")
     print("    - POST /api/upload        : Upload ontology JSON")
@@ -237,4 +237,4 @@ if __name__ == '__main__':
     print("=" * 60)
     print()
 
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=8000)

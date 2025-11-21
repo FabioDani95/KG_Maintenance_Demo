@@ -87,6 +87,28 @@
             background: #10b981;
         }
 
+        #analyze-btn {
+            display: none;
+            padding: 8px 20px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        #analyze-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-1px);
+        }
+
+        #analyze-btn.show {
+            display: inline-block;
+        }
+
         /* Main content area */
         #main-content {
             display: flex;
@@ -163,6 +185,30 @@
         #cy {
             width: 100%;
             height: 100%;
+        }
+
+        #initial-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #9ca3af;
+            z-index: 5;
+        }
+
+        #initial-message.hidden {
+            display: none;
+        }
+
+        #initial-message h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #6b7280;
+        }
+
+        #initial-message p {
+            font-size: 16px;
         }
 
         /* Details panel */
@@ -278,6 +324,7 @@
             <p>Visualizzazione interattiva del grafo della conoscenza</p>
             <div id="file-upload-section">
                 <input type="file" id="file-input" accept=".json" />
+                <button id="analyze-btn">Analizza Ontologia</button>
                 <span id="status-message">Nessun file caricato</span>
             </div>
         </div>
@@ -299,6 +346,10 @@
 
             <!-- Graph visualization -->
             <div id="graph-container">
+                <div id="initial-message">
+                    <h2>📊 Ontologia Manutenzione</h2>
+                    <p>Carica un file JSON e premi "Analizza Ontologia" per visualizzare il grafo</p>
+                </div>
                 <div id="cy"></div>
                 <div id="graph-controls">
                     <button class="control-btn" id="zoom-in" title="Zoom In">+</button>
@@ -323,7 +374,7 @@
 
     <script>
         // API Configuration
-        const API_BASE_URL = 'http://localhost:5000/api';
+        const API_BASE_URL = 'http://localhost:8000/api';
 
         // Global state
         let cy = null;
@@ -479,6 +530,9 @@
             // File upload
             document.getElementById('file-input').addEventListener('change', handleFileUpload);
 
+            // Analyze button
+            document.getElementById('analyze-btn').addEventListener('click', analyzeGraph);
+
             // Search
             document.getElementById('search-input').addEventListener('input', handleSearch);
 
@@ -546,14 +600,34 @@
                     throw new Error(data.error || 'Errore nel caricamento');
                 }
 
-                updateStatus(`File caricato: ${data.stats.nodes} nodi, ${data.stats.edges} archi`, 'success');
+                updateStatus(`File caricato: ${data.stats.nodes} nodi, ${data.stats.edges} archi. Premi "Analizza" per visualizzare.`, 'success');
 
-                // Fetch and render graph
-                await loadGraph();
+                // Show analyze button
+                document.getElementById('analyze-btn').classList.add('show');
 
             } catch (error) {
                 updateStatus(`Errore: ${error.message}`, 'error');
                 console.error('Upload error:', error);
+                // Hide analyze button on error
+                document.getElementById('analyze-btn').classList.remove('show');
+            }
+        }
+
+        // Analyze graph (triggered by button click)
+        async function analyzeGraph() {
+            // Hide initial message
+            document.getElementById('initial-message').classList.add('hidden');
+
+            // Update status
+            updateStatus('Analisi in corso...', '');
+
+            try {
+                // Fetch and render graph
+                await loadGraph();
+                updateStatus('Ontologia analizzata con successo', 'success');
+            } catch (error) {
+                updateStatus(`Errore nell'analisi: ${error.message}`, 'error');
+                console.error('Analysis error:', error);
             }
         }
 

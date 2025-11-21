@@ -1,0 +1,939 @@
+{
+  "injection_molding_machine_maintenance_ontology": {
+    "version": "1.1",
+    "domain": "Injection Molding Machine Maintenance",
+    "classes": {
+      "machine_components": {
+        "injection_unit": {
+          "screw_barrel_assembly": {
+            "properties": {
+              "screw_diameter": "number",
+              "l_d_ratio": "number",
+              "screw_profile": "string",
+              "wear_level": "percentage",
+              "material_family": ["PP", "PE", "ABS", "PA", "PC", "POM", "PVC", "other"],
+              "surface_hardening": "string",
+              "last_overhaul_date": "date",
+              "max_allowed_back_pressure": "bar"
+            },
+            "subcomponents": [
+              "plasticizing_screw",
+              "barrel",
+              "non_return_valve",
+              "nozzle",
+              "screw_drive_motor",
+              "injection_carriage"
+            ]
+          },
+          "heating_system": {
+            "zones": ["zone_1", "zone_2", "zone_3", "zone_4", "nozzle"],
+            "properties": {
+              "temperature_setpoint": "number",
+              "actual_temperature": "number",
+              "heater_band_status": "boolean",
+              "heater_band_power": "kW",
+              "zone_deviation_alarm_threshold": "celsius"
+            }
+          },
+          "injection_drive": {
+            "type": ["hydraulic", "electric", "hybrid"],
+            "properties": {
+              "max_injection_speed": "mm/s",
+              "max_injection_pressure": "bar",
+              "servo_status": "string"
+            }
+          }
+        },
+        "clamping_unit": {
+          "structural_components": {
+            "fixed_platen": {
+              "properties": {
+                "parallelism_tolerance": "number",
+                "surface_condition": "string",
+                "max_mold_weight": "kg"
+              }
+            },
+            "moving_platen": {
+              "properties": {
+                "alignment": "number",
+                "guide_wear": "percentage",
+                "max_opening_stroke": "mm"
+              }
+            },
+            "tie_bars": {
+              "count": 4,
+              "properties": {
+                "elongation": "number",
+                "thread_condition": "string",
+                "corrosion_level": "percentage"
+              }
+            },
+            "guide_bushings": {
+              "properties": {
+                "clearance": "number",
+                "lubrication_status": "string",
+                "grease_type": "string"
+              }
+            }
+          },
+          "clamping_mechanism": {
+            "type": ["toggle", "hydraulic_direct", "hybrid"],
+            "properties": {
+              "clamping_force": "number",
+              "mold_height_adjustment": "number",
+              "toggle_pin_wear": "percentage",
+              "preclamping_force_profile": "string"
+            }
+          },
+          "ejector_system": {
+            "type": ["hydraulic", "servo_electric"],
+            "properties": {
+              "ejector_stroke": "mm",
+              "ejector_force": "kN",
+              "ejector_speed_profile": "string"
+            }
+          }
+        },
+        "hydraulic_system": {
+          "pumps": {
+            "types": ["fixed_displacement", "variable_displacement", "servo_pump"],
+            "properties": {
+              "flow_rate": "number",
+              "pressure": "number",
+              "efficiency": "percentage",
+              "noise_level": "decibel",
+              "running_hours": "hours"
+            }
+          },
+          "valves": {
+            "types": ["proportional", "directional", "pressure_relief", "safety"],
+            "properties": {
+              "response_time": "milliseconds",
+              "leakage_rate": "ml/min",
+              "command_signal_type": ["analog", "fieldbus"],
+              "last_cleaning_date": "date"
+            }
+          },
+          "actuators": {
+            "injection_cylinder": {
+              "stroke": "number",
+              "bore_diameter": "number"
+            },
+            "clamping_cylinder": {
+              "stroke": "number",
+              "bore_diameter": "number"
+            },
+            "ejector_cylinder": {
+              "stroke": "number",
+              "bore_diameter": "number"
+            }
+          },
+          "hydraulic_oil": {
+            "properties": {
+              "viscosity": "cSt",
+              "contamination_level": "ISO_code",
+              "temperature": "celsius",
+              "volume": "liters",
+              "oil_type": "string",
+              "last_change_date": "date"
+            }
+          },
+          "cooling_system": {
+            "heat_exchanger": {
+              "capacity": "kW",
+              "efficiency": "percentage",
+              "fouling_index": "percentage"
+            },
+            "filters": {
+              "pressure_filter": {
+                "micron_rating": "number",
+                "condition": "string",
+                "differential_pressure": "bar"
+              },
+              "return_filter": {
+                "micron_rating": "number",
+                "condition": "string",
+                "differential_pressure": "bar"
+              }
+            }
+          }
+        },
+        "control_system": {
+          "controller": {
+            "type": ["PLC", "CNC", "PC_based"],
+            "properties": {
+              "firmware_version": "string",
+              "cpu_load": "percentage",
+              "memory_usage": "percentage",
+              "fieldbus_interfaces": ["Ethernet_IP", "Profinet", "Modbus_TCP", "OPC_UA"]
+            }
+          },
+          "hmi": {
+            "type": "touchscreen",
+            "properties": {
+              "screen_size": "inches",
+              "resolution": "string",
+              "language_support": ["EN", "DE", "IT", "FR", "ES"]
+            }
+          },
+          "sensors": {
+            "pressure_sensors": {
+              "locations": ["injection", "hydraulic", "cavity"],
+              "properties": {
+                "range": "bar",
+                "accuracy": "percentage",
+                "calibration_date": "date",
+                "signal_type": ["4_20mA", "0_10V", "digital"]
+              }
+            },
+            "temperature_sensors": {
+              "type": ["thermocouple", "RTD"],
+              "locations": ["barrel", "mold", "oil"],
+              "properties": {
+                "accuracy": "celsius",
+                "response_time": "seconds",
+                "protection_class": "string"
+              }
+            },
+            "position_sensors": {
+              "type": ["linear_transducer", "encoder"],
+              "locations": ["screw", "clamp", "ejector"],
+              "properties": {
+                "resolution": "mm",
+                "repeatability": "mm",
+                "reference_point_method": "string"
+              }
+            }
+          }
+        }
+      },
+      "maintenance_activities": {
+        "preventive_maintenance": {
+          "daily_checks": {
+            "frequency": "daily",
+            "tasks": [
+              {
+                "task_id": "DC001",
+                "description": "Check hydraulic oil level",
+                "component": "hydraulic_system",
+                "duration": 5,
+                "priority": "high",
+                "required_skill_level": "operator",
+                "tools_required": []
+              },
+              {
+                "task_id": "DC002",
+                "description": "Check cooling water temperature",
+                "component": "cooling_system",
+                "duration": 3,
+                "priority": "high",
+                "required_skill_level": "operator",
+                "tools_required": []
+              },
+              {
+                "task_id": "DC003",
+                "description": "Visual inspection for leaks",
+                "component": "all",
+                "duration": 10,
+                "priority": "medium",
+                "required_skill_level": "operator",
+                "tools_required": ["flashlight", "cleaning_rags"]
+              },
+              {
+                "task_id": "DC004",
+                "description": "Clean machine surfaces",
+                "component": "general",
+                "duration": 15,
+                "priority": "low",
+                "required_skill_level": "operator",
+                "tools_required": ["cleaning_agent", "cloth"]
+              }
+            ]
+          },
+          "weekly_checks": {
+            "frequency": "weekly",
+            "tasks": [
+              {
+                "task_id": "WC001",
+                "description": "Lubricate tie bar bushings",
+                "component": "clamping_unit",
+                "duration": 20,
+                "priority": "high",
+                "required_skill_level": "maintenance_technician",
+                "tools_required": ["grease_gun"]
+              },
+              {
+                "task_id": "WC002",
+                "description": "Check safety devices",
+                "component": "safety_system",
+                "duration": 15,
+                "priority": "critical",
+                "required_skill_level": "maintenance_technician",
+                "tools_required": ["safety_test_device"]
+              },
+              {
+                "task_id": "WC003",
+                "description": "Verify operating pressures",
+                "component": "hydraulic_system",
+                "duration": 10,
+                "priority": "medium",
+                "required_skill_level": "maintenance_technician",
+                "tools_required": ["pressure_gauge"]
+              }
+            ]
+          },
+          "monthly_checks": {
+            "frequency": "monthly",
+            "tasks": [
+              {
+                "task_id": "MC001",
+                "description": "Hydraulic oil analysis",
+                "component": "hydraulic_system",
+                "duration": 30,
+                "priority": "high",
+                "required_skill_level": "maintenance_engineer",
+                "tools_required": ["oil_sampling_kit"]
+              },
+              {
+                "task_id": "MC002",
+                "description": "Check component wear",
+                "component": "all_mechanical",
+                "duration": 60,
+                "priority": "medium",
+                "required_skill_level": "maintenance_technician",
+                "tools_required": ["dial_indicator", "caliper"]
+              },
+              {
+                "task_id": "MC003",
+                "description": "Calibrate sensors",
+                "component": "control_system",
+                "duration": 45,
+                "priority": "high",
+                "required_skill_level": "automation_technician",
+                "tools_required": ["calibration_source"]
+              }
+            ]
+          },
+          "annual_checks": {
+            "frequency": "yearly",
+            "tasks": [
+              {
+                "task_id": "AC001",
+                "description": "Complete mechanical overhaul",
+                "component": "all",
+                "duration": 480,
+                "priority": "critical",
+                "required_skill_level": "maintenance_team",
+                "tools_required": ["lifting_equipment", "torque_wrenches"]
+              },
+              {
+                "task_id": "AC002",
+                "description": "Replace all filters and fluids",
+                "component": "hydraulic_system",
+                "duration": 120,
+                "priority": "high",
+                "required_skill_level": "maintenance_technician",
+                "tools_required": ["oil_change_equipment"]
+              },
+              {
+                "task_id": "AC003",
+                "description": "System recalibration",
+                "component": "control_system",
+                "duration": 240,
+                "priority": "high",
+                "required_skill_level": "automation_engineer",
+                "tools_required": ["service_laptop", "calibration_tools"]
+              }
+            ]
+          }
+        },
+        "corrective_maintenance": {
+          "diagnostic_procedures": {
+            "fault_diagnosis": {
+              "methods": ["visual_inspection", "measurement", "testing", "analysis", "remote_diagnostics"],
+              "tools": ["multimeter", "pressure_gauge", "thermometer", "vibration_analyzer", "oscilloscope", "service_laptop"]
+            },
+            "component_replacement": {
+              "critical_spares": [
+                "heater_bands",
+                "thermocouples",
+                "hydraulic_valves",
+                "seals",
+                "filters",
+                "pressure_sensors",
+                "contactors"
+              ]
+            }
+          },
+          "failure_workflows": {
+            "steps": ["detect_failure", "classify_severity", "assign_technician", "perform_repair", "test_and_validate", "close_work_order"],
+            "roles_involved": ["operator", "maintenance_technician", "maintenance_supervisor"]
+          }
+        },
+        "predictive_maintenance": {
+          "condition_monitoring": {
+            "vibration_analysis": {
+              "frequency": "monthly",
+              "components": ["pumps", "motors", "screws"],
+              "thresholds": {
+                "normal": "< 2.5 mm/s",
+                "warning": "2.5-7.1 mm/s",
+                "critical": "> 7.1 mm/s"
+              }
+            },
+            "thermography": {
+              "frequency": "quarterly",
+              "components": ["electrical_panels", "motors", "heaters"],
+              "temperature_limits": {
+                "electrical_connections": 70,
+                "motors": 80,
+                "hydraulic_oil": 60
+              }
+            },
+            "oil_analysis": {
+              "frequency": "monthly",
+              "parameters": {
+                "viscosity": "cSt",
+                "particle_count": "ISO_code",
+                "water_content": "ppm",
+                "acid_number": "mgKOH/g"
+              }
+            }
+          },
+          "data_sources": ["sensor_streams", "alarm_history", "production_logs"],
+          "analytics_methods": ["trend_analysis", "anomaly_detection", "remaining_useful_life_estimation"]
+        },
+        "maintenance_policies": {
+          "strategies": ["run_to_failure", "time_based_preventive", "condition_based", "predictive"],
+          "selection_criteria": ["criticality", "cost_impact", "safety_impact", "spare_part_lead_time"]
+        },
+        "planning_and_scheduling": {
+          "work_orders": {
+            "fields": ["work_order_id", "status", "requested_date", "scheduled_date", "completion_date", "downtime", "responsible_technician"],
+            "status_values": ["open", "scheduled", "in_progress", "completed", "cancelled"]
+          },
+          "resource_constraints": {
+            "available_technicians": "number",
+            "shift_pattern": ["day", "night", "weekend"],
+            "planned_downtime_windows": "time_ranges"
+          }
+        }
+      },
+      "process_parameters": {
+        "injection_parameters": {
+          "injection_speed": {
+            "unit": "mm/s",
+            "range": [10, 500],
+            "profile_steps": 10
+          },
+          "injection_pressure": {
+            "unit": "bar",
+            "range": [50, 2000]
+          },
+          "switchover_point": {
+            "unit": "mm",
+            "type": ["position", "pressure", "time"]
+          },
+          "holding_pressure": {
+            "unit": "bar",
+            "range": [20, 1500],
+            "profile_steps": 6
+          },
+          "holding_time": {
+            "unit": "seconds",
+            "range": [0.1, 99]
+          },
+          "back_pressure": {
+            "unit": "bar",
+            "range": [5, 300]
+          },
+          "screw_rotation_speed": {
+            "unit": "rpm",
+            "range": [10, 500]
+          }
+        },
+        "thermal_parameters": {
+          "barrel_temperatures": {
+            "zones": 5,
+            "unit": "celsius",
+            "range": [20, 450]
+          },
+          "nozzle_temperature": {
+            "unit": "celsius",
+            "range": [20, 450]
+          },
+          "mold_temperature": {
+            "unit": "celsius",
+            "range": [5, 200]
+          },
+          "oil_temperature": {
+            "unit": "celsius",
+            "range": [20, 60]
+          }
+        },
+        "clamping_parameters": {
+          "clamping_force": {
+            "unit": "tons",
+            "range": [50, 6000]
+          },
+          "opening_speed": {
+            "unit": "mm/s",
+            "profile": ["fast", "slow", "fast"]
+          },
+          "mold_protection": {
+            "force_limit": "percentage",
+            "position_window": "mm"
+          }
+        }
+      },
+      "failures_and_anomalies": {
+        "mechanical_failures": {
+          "screw_wear": {
+            "symptoms": ["inconsistent_shot_weight", "increased_cycle_time", "material_degradation"],
+            "severity": "high",
+            "mtbf": 15000,
+            "repair_time": 8,
+            "recommended_actions": ["verify_material", "measure_back_pressure", "inspect_screw_surface"]
+          },
+          "non_return_valve_failure": {
+            "symptoms": ["cushion_variation", "drooling", "shot_size_inconsistency"],
+            "severity": "medium",
+            "mtbf": 8000,
+            "repair_time": 4,
+            "recommended_actions": ["inspect_valve", "clean_valve", "replace_if_worn"]
+          },
+          "tie_bar_seizure": {
+            "symptoms": ["uneven_clamping", "mold_flash", "abnormal_noise"],
+            "severity": "critical",
+            "mtbf": 20000,
+            "repair_time": 12,
+            "recommended_actions": ["check_lubrication", "measure_elongation", "inspect_bushings"]
+          }
+        },
+        "hydraulic_failures": {
+          "pump_cavitation": {
+            "symptoms": ["noise", "vibration", "flow_reduction"],
+            "severity": "high",
+            "causes": ["low_oil_level", "high_oil_temperature", "blocked_suction_filter"],
+            "recommended_actions": ["check_oil_level", "inspect_filters", "verify_suction_line"]
+          },
+          "valve_malfunction": {
+            "symptoms": ["erratic_movement", "pressure_loss", "internal_leakage"],
+            "severity": "medium",
+            "causes": ["contamination", "wear", "electrical_failure"],
+            "recommended_actions": ["flush_system", "clean_or_replace_valve", "check_electrical_signal"]
+          },
+          "oil_contamination": {
+            "symptoms": ["component_wear", "sticky_valves", "pump_damage"],
+            "severity": "high",
+            "causes": ["filter_failure", "seal_degradation", "water_ingress"],
+            "recommended_actions": ["replace_filters", "change_oil", "investigate_contamination_source"]
+          }
+        },
+        "electrical_failures": {
+          "sensor_drift": {
+            "symptoms": ["incorrect_readings", "process_variation", "alarm_triggers"],
+            "severity": "low",
+            "diagnostic": "calibration_check",
+            "recommended_actions": ["recalibrate_sensor", "check_wiring", "replace_if_unstable"]
+          },
+          "heater_band_failure": {
+            "symptoms": ["temperature_instability", "zone_alarm", "material_degradation"],
+            "severity": "medium",
+            "mtbf": 5000,
+            "repair_time": 1,
+            "recommended_actions": ["identify_failed_band", "replace_band", "verify_electrical_connections"]
+          },
+          "controller_malfunction": {
+            "symptoms": ["system_shutdown", "communication_loss", "erratic_operation"],
+            "severity": "critical",
+            "diagnostic": "system_diagnostics",
+            "recommended_actions": ["backup_parameters", "restart_controller", "contact_oem_support"]
+          }
+        },
+        "quality_related_anomalies": {
+          "burn_marks": {
+            "symptoms": ["dark_spots", "surface_degradation"],
+            "possible_causes": ["excessive_melt_temperature", "trapped_air", "long_residence_time"]
+          },
+          "flash": {
+            "symptoms": ["excess_material_on_parting_line"],
+            "possible_causes": ["insufficient_clamping_force", "worn_mold", "excessive_injection_pressure"]
+          },
+          "short_shots": {
+            "symptoms": ["incomplete_filling"],
+            "possible_causes": ["low_injection_pressure", "restricted_flow", "insufficient_shot_size"]
+          }
+        }
+      },
+      "relationships": {
+        "causal_relationships": [
+          {
+            "cause": "oil_contamination",
+            "effect": "pump_wear",
+            "probability": 0.8
+          },
+          {
+            "cause": "misalignment",
+            "effect": "guide_wear",
+            "probability": 0.9
+          },
+          {
+            "cause": "overheating",
+            "effect": "material_degradation",
+            "probability": 0.7
+          },
+          {
+            "cause": "incorrect_parameters",
+            "effect": "product_defects",
+            "probability": 0.6
+          },
+          {
+            "cause": "low_pm_compliance",
+            "effect": "increased_unplanned_downtime",
+            "probability": 0.75
+          }
+        ],
+        "temporal_relationships": {
+          "component_lifespans": {
+            "screw_assembly": {
+              "unit": "hours",
+              "expected_life": 20000,
+              "factors": ["material_type", "temperature", "pressure"]
+            },
+            "hydraulic_pump": {
+              "unit": "hours",
+              "expected_life": 30000,
+              "factors": ["oil_quality", "operating_pressure", "duty_cycle"]
+            },
+            "heater_bands": {
+              "unit": "hours",
+              "expected_life": 8000,
+              "factors": ["temperature_setpoint", "cycling_frequency"]
+            }
+          }
+        },
+        "functional_dependencies": [
+          {
+            "component": "hydraulic_pump",
+            "depends_on": ["motor", "coupling", "oil_quality"],
+            "affects": ["injection_pressure", "clamping_force", "ejector_movement"]
+          },
+          {
+            "component": "temperature_control",
+            "depends_on": ["sensors", "heaters", "controller"],
+            "affects": ["melt_quality", "cycle_time", "product_quality"]
+          },
+          {
+            "component": "cooling_system",
+            "depends_on": ["cooling_water_supply", "heat_exchanger"],
+            "affects": ["oil_temperature", "mold_temperature", "cycle_time"]
+          }
+        ]
+      },
+      "metrics_and_kpi": {
+        "performance_metrics": {
+          "oee": {
+            "formula": "availability * performance * quality",
+            "target": 0.85,
+            "components": {
+              "availability": {
+                "formula": "operating_time / planned_production_time",
+                "target": 0.9
+              },
+              "performance": {
+                "formula": "actual_output / theoretical_output",
+                "target": 0.95
+              },
+              "quality": {
+                "formula": "good_parts / total_parts",
+                "target": 0.99
+              }
+            }
+          },
+          "cycle_time": {
+            "unit": "seconds",
+            "measurement": "automatic",
+            "optimization_target": "minimize"
+          },
+          "energy_consumption": {
+            "unit": "kWh/kg",
+            "measurement": "energy_meter",
+            "optimization_target": "minimize"
+          },
+          "scrap_rate": {
+            "unit": "percentage",
+            "formula": "scrap_parts / total_parts",
+            "target": 0.02
+          }
+        },
+        "maintenance_metrics": {
+          "mtbf": {
+            "formula": "total_operating_time / number_of_failures",
+            "unit": "hours",
+            "target": 500
+          },
+          "mttr": {
+            "formula": "total_repair_time / number_of_repairs",
+            "unit": "hours",
+            "target": 4
+          },
+          "maintenance_cost": {
+            "formula": "labor_cost + parts_cost + downtime_cost",
+            "unit": "currency/piece",
+            "tracking": "monthly"
+          },
+          "pm_compliance": {
+            "formula": "completed_pm_tasks / scheduled_pm_tasks",
+            "target": 0.95
+          },
+          "unplanned_downtime_ratio": {
+            "formula": "unplanned_downtime / total_downtime",
+            "target": 0.3
+          }
+        }
+      },
+      "documentation": {
+        "technical_documents": {
+          "manuals": [
+            {
+              "type": "operator_manual",
+              "format": "PDF",
+              "language": ["EN", "DE", "IT"],
+              "version": "string"
+            },
+            {
+              "type": "maintenance_manual",
+              "format": "PDF",
+              "sections": ["mechanical", "hydraulic", "electrical", "troubleshooting"]
+            },
+            {
+              "type": "parts_catalog",
+              "format": "PDF",
+              "includes": ["part_numbers", "exploded_views", "specifications"]
+            }
+          ],
+          "drawings": {
+            "hydraulic_schematic": {
+              "format": "DWG",
+              "revision": "string"
+            },
+            "electrical_schematic": {
+              "format": "DWG",
+              "revision": "string"
+            },
+            "mechanical_drawings": {
+              "format": "DWG",
+              "components": ["assembly", "details", "spare_parts"]
+            }
+          }
+        },
+        "maintenance_records": {
+          "intervention_log": {
+            "fields": ["date", "technician", "type", "duration", "parts_used", "cost"],
+            "storage": "database"
+          },
+          "inspection_reports": {
+            "frequency": "periodic",
+            "format": "form",
+            "approval": "supervisor"
+          },
+          "failure_analysis": {
+            "method": "root_cause_analysis",
+            "documentation": ["5_why", "fishbone", "FMEA"],
+            "corrective_actions": "tracked"
+          }
+        }
+      },
+      "safety_and_compliance": {
+        "safety_devices": {
+          "emergency_stop": {
+            "type": "pushbutton",
+            "locations": ["operator_side", "non_operator_side", "rear"],
+            "test_frequency": "weekly"
+          },
+          "safety_guards": {
+            "type": ["mechanical", "light_curtain", "safety_mat"],
+            "interlock": "yes",
+            "bypass_prevention": "dual_channel"
+          },
+          "pressure_relief_valves": {
+            "setting": "bar",
+            "test_frequency": "monthly",
+            "certification": "required"
+          }
+        },
+        "standards_compliance": {
+          "machinery_directive": "2006/42/EC",
+          "harmonized_standards": ["EN_201", "EN_289", "ISO_20430"],
+          "certification": {
+            "CE_marking": "required",
+            "declaration_of_conformity": "required"
+          }
+        },
+        "lockout_tagout": {
+          "energy_sources": ["electrical", "hydraulic", "pneumatic", "thermal"],
+          "procedure": "documented",
+          "training": "required"
+        },
+        "alarm_management": {
+          "alarm_categories": ["safety", "process", "maintenance", "information"],
+          "fields": ["alarm_id", "category", "severity", "trigger_condition", "recommended_action"],
+          "operator_responses": ["acknowledge", "investigate", "escalate", "reset"]
+        }
+      },
+      "operating_environment": {
+        "ambient_conditions": {
+          "temperature_range": {
+            "min": "celsius",
+            "max": "celsius"
+          },
+          "humidity_range": {
+            "min": "percentage",
+            "max": "percentage"
+          },
+          "dust_level": "string"
+        },
+        "utilities": {
+          "electrical_supply": {
+            "voltage": "V",
+            "frequency": "Hz",
+            "stability": "string"
+          },
+          "cooling_water": {
+            "flow_rate": "l/min",
+            "inlet_temperature": "celsius"
+          },
+          "compressed_air": {
+            "pressure": "bar",
+            "quality_class": "string"
+          }
+        },
+        "production_context": {
+          "shift_pattern": ["1_shift", "2_shifts", "3_shifts"],
+          "average_utilization": "percentage",
+          "product_family": ["technical_parts", "packaging", "automotive", "medical", "consumer_goods"]
+        }
+      },
+      "spare_parts_and_inventory": {
+        "spare_part": {
+          "fields": ["part_number", "description", "component_group", "criticality", "supplier", "stock_quantity", "reorder_level", "lead_time_days"],
+          "criticality_levels": ["A_critical", "B_important", "C_standard"]
+        },
+        "storage_locations": {
+          "types": ["central_store", "local_cabinet", "consignment_stock"],
+          "properties": {
+            "location_id": "string",
+            "temperature_control": "boolean"
+          }
+        }
+      },
+      "integration_and_systems": {
+        "connected_systems": {
+          "mes": {
+            "present": "boolean",
+            "functions": ["order_management", "traceability", "data_collection"]
+          },
+          "erp": {
+            "present": "boolean",
+            "functions": ["material_planning", "cost_tracking"]
+          },
+          "cmms": {
+            "present": "boolean",
+            "functions": ["work_order_management", "spare_part_tracking"]
+          },
+          "scada": {
+            "present": "boolean",
+            "functions": ["real_time_monitoring", "alarm_management"]
+          }
+        },
+        "data_interfaces": {
+          "protocols": ["OPC_UA", "Modbus_TCP", "Euromap_77", "Euromap_63"],
+          "historian": {
+            "present": "boolean",
+            "sampling_interval": "seconds",
+            "stored_parameters": ["pressures", "temperatures", "positions", "cycle_times", "alarms"]
+          }
+        }
+      },
+      "human_factors_and_skills": {
+        "roles": ["operator", "setup_technician", "maintenance_technician", "maintenance_engineer", "process_engineer"],
+        "competence_levels": ["basic", "intermediate", "advanced", "expert"],
+        "training_records": {
+          "fields": ["person_id", "role", "training_type", "completion_date", "valid_until"],
+          "training_types": ["safety", "machine_operation", "maintenance", "troubleshooting"]
+        },
+        "standard_operating_procedures": {
+          "types": ["startup", "shutdown", "changeover", "emergency_handling"],
+          "format": "document",
+          "revision_control": "string"
+        }
+      }
+    },
+    "data_properties": {
+      "measurement_units": {
+        "pressure": ["bar", "psi", "MPa"],
+        "temperature": ["celsius", "fahrenheit", "kelvin"],
+        "distance": ["mm", "inch"],
+        "force": ["kN", "tons"],
+        "time": ["seconds", "minutes", "hours"],
+        "speed": ["mm/s", "m/min"],
+        "rotation": ["rpm"],
+        "volume": ["cm³", "liters", "gallons"],
+        "weight": ["kg", "lbs"],
+        "energy": ["kW", "HP"]
+      },
+      "status_values": {
+        "operational_status": ["running", "idle", "maintenance", "fault", "emergency_stop"],
+        "component_condition": ["good", "acceptable", "needs_attention", "critical", "failed"],
+        "maintenance_priority": ["critical", "high", "medium", "low"],
+        "alarm_severity": ["info", "warning", "alarm", "fault", "emergency"]
+      },
+      "probability_scale": ["very_low", "low", "medium", "high", "very_high"]
+    },
+    "rules_and_constraints": {
+      "maintenance_rules": [
+        {
+          "rule": "if hydraulic_oil_temperature > 60°C then trigger_cooling_system_check",
+          "priority": "high"
+        },
+        {
+          "rule": "if tie_bar_elongation > 0.3mm then schedule_tie_bar_inspection",
+          "priority": "medium"
+        },
+        {
+          "rule": "if vibration_level > 7.1mm/s then immediate_shutdown",
+          "priority": "critical"
+        },
+        {
+          "rule": "if pm_compliance < 0.9 then schedule_maintenance_audit",
+          "priority": "medium"
+        }
+      ],
+      "operational_constraints": [
+        {
+          "constraint": "minimum_clamping_force >= cavity_pressure * projected_area * safety_factor",
+          "safety_factor": 1.2
+        },
+        {
+          "constraint": "barrel_temperature[i] <= material_degradation_temperature",
+          "validation": "continuous"
+        },
+        {
+          "constraint": "max_injection_pressure <= rated_machine_pressure",
+          "validation": "continuous"
+        }
+      ],
+      "data_quality_rules": [
+        {
+          "rule": "if sensor_value is null or out_of_range then flag_for_investigation",
+          "priority": "high"
+        },
+        {
+          "rule": "if alarm_not_acknowledged_within_threshold then escalate_to_supervisor",
+          "priority": "high"
+        }
+      ]
+    }
+  }
+}
