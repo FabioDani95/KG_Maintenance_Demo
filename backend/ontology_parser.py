@@ -81,9 +81,15 @@ class OntologyParser:
         if instances_data or instance_metadata:
             content_types.append('ABox instances')
 
-        # Create root node
-        root_node = self._create_root_node(root_key, root_data, content_types)
-        self.nodes.append(root_node)
+        # Create root node ONLY if we have TBox (classes) but no ABox instances
+        # For ABox-only files, we don't need a root node
+        if classes_data and not (instances_data or instance_metadata):
+            root_node = self._create_root_node(root_key, root_data, content_types)
+            self.nodes.append(root_node)
+        elif not instances_data and not instance_metadata:
+            # Fallback: create root if we have nothing else
+            root_node = self._create_root_node(root_key, root_data, content_types)
+            self.nodes.append(root_node)
 
         # Process optional machine instance metadata (ABox)
         if instance_metadata:
@@ -248,7 +254,9 @@ class OntologyParser:
 
             # Get the instance type
             instance_type = instance_data.get('type', 'Instance')
-            category = self._determine_category(instance_type, 'instances')
+
+            # Determine category based on type
+            category = self._categorize_instance_type(instance_type)
 
             # Extract all properties (including 'type')
             properties = {}
@@ -256,11 +264,14 @@ class OntologyParser:
                 # Store all properties as-is, without recursion
                 properties[key] = value
 
+            # Determine human-readable label
+            label = self._get_instance_label(instance_id, instance_data)
+
             # Create node
             node = {
                 'data': {
                     'id': node_id,
-                    'label': instance_id,  # Use the ID as label
+                    'label': label,
                     'category': category,
                     'color': self.CATEGORY_COLORS.get(category, self.CATEGORY_COLORS['other']),
                     'size': 40,
@@ -271,17 +282,54 @@ class OntologyParser:
             }
             self.nodes.append(node)
 
-            # Create hierarchical edge from root
-            edge = {
-                'data': {
-                    'id': f"root-{node_id}",
-                    'source': 'root',
-                    'target': node_id,
-                    'type': 'hierarchical'
-                },
-                'classes': 'hierarchical'
-            }
-            self.edges.append(edge)
+            # NO hierarchical edge from root - instances are standalone
+
+    def _categorize_instance_type(self, instance_type: str) -> str:
+        """Map instance type to category"""
+        type_lower = instance_type.lower()
+
+        # Machine components mapping
+        component_types = [
+            'machine', 'screwbarrelassembly', 'heatingsystem', 'injectiondrive',
+            'fixedplaten', 'movingplaten', 'tiebars', 'guidebushings',
+            'clampingmechanism', 'ejectorsystem', 'pump', 'valveset',
+            'actuator', 'hydraulicoil', 'heatexchanger', 'filter',
+            'controller', 'hmi', 'sensorset', 'sensor'
+        ]
+
+        for comp_type in component_types:
+            if comp_type in type_lower.replace('_', ''):
+                return 'machine_components'
+
+        # Maintenance tasks
+        if 'maintenancetask' in type_lower.replace('_', ''):
+            return 'maintenance_activities'
+
+        # Default to other
+        return 'other'
+
+    def _get_instance_label(self, instance_id: str, instance_data: dict) -> str:
+        """Generate human-readable label for an instance"""
+        instance_type = instance_data.get('type', '')
+
+        # For MaintenanceTask, use description
+        if 'MaintenanceTask' in instance_type:
+            description = instance_data.get('description', '')
+            if description:
+                return description
+
+        # For Machine, use model or manufacturer + model
+        if 'Machine' in instance_type:
+            model = instance_data.get('model', '')
+            manufacturer = instance_data.get('manufacturer', '')
+            if model and manufacturer:
+                return f"{manufacturer} {model}"
+            elif model:
+                return model
+
+        # For components with specific names, try to use descriptive properties
+        # Otherwise use the instance_id
+        return instance_id
 
     def _process_relationships(self, relationships: Dict):
         """Process relationships to create relational edges"""
