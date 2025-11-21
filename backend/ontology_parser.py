@@ -294,16 +294,21 @@ class OntologyParser:
             'fixedplaten', 'movingplaten', 'tiebars', 'guidebushings',
             'clampingmechanism', 'ejectorsystem', 'pump', 'valveset',
             'actuator', 'hydraulicoil', 'heatexchanger', 'filter',
-            'controller', 'hmi', 'sensorset', 'sensor'
+            'controller', 'hmi', 'sensorset', 'sensor', 'temperaturesensor',
+            'mold'
         ]
 
         for comp_type in component_types:
             if comp_type in type_lower.replace('_', ''):
                 return 'machine_components'
 
-        # Maintenance tasks
-        if 'maintenancetask' in type_lower.replace('_', ''):
+        # Maintenance tasks and events
+        if 'maintenancetask' in type_lower.replace('_', '') or 'maintenanceevent' in type_lower.replace('_', ''):
             return 'maintenance_activities'
+
+        # Materials and spare parts
+        if 'material' in type_lower.replace('_', ''):
+            return 'spare_parts_and_inventory'
 
         # Default to other
         return 'other'
@@ -313,7 +318,7 @@ class OntologyParser:
         instance_type = instance_data.get('type', '')
 
         # For MaintenanceTask, use description
-        if 'MaintenanceTask' in instance_type:
+        if 'MaintenanceTask' in instance_type or 'MaintenanceEvent' in instance_type:
             description = instance_data.get('description', '')
             if description:
                 return description
@@ -326,6 +331,24 @@ class OntologyParser:
                 return f"{manufacturer} {model}"
             elif model:
                 return model
+
+        # For Material, use material_name
+        if 'Material' in instance_type:
+            material_name = instance_data.get('material_name', '')
+            if material_name:
+                return material_name
+
+        # For Mold, use mold_id
+        if 'Mold' in instance_type:
+            mold_id = instance_data.get('mold_id', '')
+            if mold_id:
+                return mold_id
+
+        # For TemperatureSensor, use zone
+        if 'TemperatureSensor' in instance_type:
+            zone = instance_data.get('zone', '')
+            if zone:
+                return f"Temperature Sensor {zone.replace('_', ' ').title()}"
 
         # For components with specific names, try to use descriptive properties
         # Otherwise use the instance_id
