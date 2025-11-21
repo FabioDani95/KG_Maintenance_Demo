@@ -331,6 +331,155 @@
         "tools_required": ["grease_gun"],
         "last_execution_date": "2024-02-05",
         "last_result": "completed"
+      },
+
+      "WC002": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "weekly",
+        "description": "Inspect heater bands condition",
+        "component": "HS_01",
+        "duration": 15,
+        "priority": "high",
+        "required_skill_level": "maintenance_technician",
+        "tools_required": ["multimeter", "infrared_thermometer"],
+        "last_execution_date": "2024-02-05",
+        "last_result": "all_zones_ok"
+      },
+
+      "MC001": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "monthly",
+        "description": "Replace hydraulic filters",
+        "component": "PF_01",
+        "duration": 45,
+        "priority": "high",
+        "required_skill_level": "maintenance_technician",
+        "tools_required": ["filter_wrench", "oil_drain_pan", "cleaning_rags"],
+        "last_execution_date": "2024-01-15",
+        "last_result": "filters_replaced"
+      },
+
+      "MC002": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "monthly",
+        "description": "Calibrate pressure sensors",
+        "component": "PRS_SET_01",
+        "duration": 60,
+        "priority": "medium",
+        "required_skill_level": "technician_specialist",
+        "tools_required": ["calibration_kit", "service_laptop"],
+        "last_execution_date": "2024-01-20",
+        "last_result": "calibration_within_spec"
+      },
+
+      "MC003": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "monthly",
+        "description": "Inspect screw barrel wear",
+        "component": "SBA_01",
+        "duration": 30,
+        "priority": "high",
+        "required_skill_level": "maintenance_technician",
+        "tools_required": ["borescope", "measuring_calipers"],
+        "last_execution_date": "2024-01-25",
+        "last_result": "wear_within_limits"
+      },
+
+      "CORR_001": {
+        "type": "MaintenanceEvent",
+        "event_category": "corrective",
+        "description": "Replaced faulty pressure sensor",
+        "component": "PRS_SET_01",
+        "event_date": "2024-01-10",
+        "downtime_minutes": 45,
+        "cost": 350,
+        "technician": "Mario Rossi",
+        "root_cause": "sensor_drift"
+      },
+
+      "CORR_002": {
+        "type": "MaintenanceEvent",
+        "event_category": "corrective",
+        "description": "Fixed hydraulic oil leak",
+        "component": "VLV_SET_01",
+        "event_date": "2023-12-15",
+        "downtime_minutes": 120,
+        "cost": 280,
+        "technician": "Luigi Bianchi",
+        "root_cause": "worn_seal"
+      },
+
+      "CORR_003": {
+        "type": "MaintenanceEvent",
+        "event_category": "corrective",
+        "description": "Replaced damaged heater band zone 3",
+        "component": "HS_01",
+        "event_date": "2023-11-30",
+        "downtime_minutes": 90,
+        "cost": 420,
+        "technician": "Mario Rossi",
+        "root_cause": "thermal_overload"
+      },
+
+      "TMP_ZONE_1": {
+        "type": "TemperatureSensor",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "zone": "barrel_zone_1",
+        "sensor_type": "K-type_thermocouple",
+        "current_reading": 209,
+        "setpoint": 210,
+        "accuracy": 1,
+        "last_calibration": "2023-07-15"
+      },
+
+      "TMP_ZONE_2": {
+        "type": "TemperatureSensor",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "zone": "barrel_zone_2",
+        "sensor_type": "K-type_thermocouple",
+        "current_reading": 214,
+        "setpoint": 215,
+        "accuracy": 1,
+        "last_calibration": "2023-07-15"
+      },
+
+      "TMP_ZONE_3": {
+        "type": "TemperatureSensor",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "zone": "barrel_zone_3",
+        "sensor_type": "K-type_thermocouple",
+        "current_reading": 222,
+        "setpoint": 220,
+        "accuracy": 1,
+        "last_calibration": "2023-07-15",
+        "alert": "reading_above_setpoint"
+      },
+
+      "MOLD_01": {
+        "type": "Mold",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "mold_id": "MOLD_PLT_450_2023",
+        "mold_weight": 1850,
+        "cavities": 4,
+        "material": "hardened_steel",
+        "cooling_circuits": 8,
+        "last_maintenance": "2024-01-05",
+        "shot_count": 125000
+      },
+
+      "MAT_PP_01": {
+        "type": "Material",
+        "material_name": "Polypropylene PP-H301",
+        "supplier": "LyondellBasell",
+        "batch_number": "PP2024-0125",
+        "drying_temperature": 80,
+        "drying_time": 2,
+        "melt_temperature_range": [200, 240],
+        "current_inventory_kg": 850
       }
     },
 
@@ -598,6 +747,110 @@
         "type": "maintains",
         "label": "weekly lubrication maintains bushings",
         "id": "MAINT_004"
+      },
+
+      {
+        "source": "WC002",
+        "target": "HS_01",
+        "type": "maintains",
+        "label": "weekly inspection monitors heater bands",
+        "id": "MAINT_005"
+      },
+
+      {
+        "source": "MC001",
+        "target": "PF_01",
+        "type": "maintains",
+        "label": "monthly maintenance replaces filters",
+        "id": "MAINT_006"
+      },
+
+      {
+        "source": "MC002",
+        "target": "PRS_SET_01",
+        "type": "maintains",
+        "label": "monthly calibration maintains sensor accuracy",
+        "id": "MAINT_007"
+      },
+
+      {
+        "source": "MC003",
+        "target": "SBA_01",
+        "type": "maintains",
+        "label": "monthly inspection monitors wear",
+        "id": "MAINT_008"
+      },
+
+      {
+        "source": "CORR_001",
+        "target": "PRS_SET_01",
+        "type": "documents_failure",
+        "label": "corrective event on pressure sensor",
+        "id": "CORR_EDGE_001"
+      },
+
+      {
+        "source": "CORR_002",
+        "target": "VLV_SET_01",
+        "type": "documents_failure",
+        "label": "corrective event on valve set",
+        "id": "CORR_EDGE_002"
+      },
+
+      {
+        "source": "CORR_003",
+        "target": "HS_01",
+        "type": "documents_failure",
+        "label": "corrective event on heating system",
+        "id": "CORR_EDGE_003"
+      },
+
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "TMP_ZONE_1",
+        "type": "has_sensor",
+        "label": "machine has temperature sensor zone 1",
+        "id": "SENS_001"
+      },
+
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "TMP_ZONE_2",
+        "type": "has_sensor",
+        "label": "machine has temperature sensor zone 2",
+        "id": "SENS_002"
+      },
+
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "TMP_ZONE_3",
+        "type": "has_sensor",
+        "label": "machine has temperature sensor zone 3",
+        "id": "SENS_003"
+      },
+
+      {
+        "source": "TMP_ZONE_3",
+        "target": "HS_01",
+        "type": "monitors",
+        "label": "sensor monitors heating system",
+        "id": "MON_001"
+      },
+
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "MOLD_01",
+        "type": "uses",
+        "label": "machine uses mold",
+        "id": "USE_001"
+      },
+
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "MAT_PP_01",
+        "type": "processes",
+        "label": "machine processes material",
+        "id": "PROC_001"
       }
     ]
   }
