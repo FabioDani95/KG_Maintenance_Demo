@@ -482,6 +482,163 @@
         "current_inventory_kg": 850
       },
 
+      "SPARE_001": {
+        "type": "SparePart",
+        "part_name": "Heater Band Zone 1",
+        "part_number": "HB-Z1-2800W",
+        "compatible_component": "HS_01",
+        "stock_quantity": 2,
+        "reorder_point": 1,
+        "unit_cost": 180,
+        "supplier": "Watlow",
+        "last_order_date": "2023-11-15"
+      },
+
+      "SPARE_002": {
+        "type": "SparePart",
+        "part_name": "Heater Band Zone 3",
+        "part_number": "HB-Z3-3000W",
+        "compatible_component": "HS_01",
+        "stock_quantity": 1,
+        "reorder_point": 1,
+        "unit_cost": 195,
+        "supplier": "Watlow",
+        "last_order_date": "2023-12-01"
+      },
+
+      "SPARE_003": {
+        "type": "SparePart",
+        "part_name": "Hydraulic Seal Kit",
+        "part_number": "HSK-85-VITON",
+        "compatible_component": "VLV_SET_01",
+        "stock_quantity": 3,
+        "reorder_point": 2,
+        "unit_cost": 125,
+        "supplier": "Parker Hannifin",
+        "last_order_date": "2023-10-20"
+      },
+
+      "SPARE_004": {
+        "type": "SparePart",
+        "part_name": "O-Ring Set Injection Cylinder",
+        "part_number": "OR-INJ-NBOR-70",
+        "compatible_component": "ACT_INJ_01",
+        "stock_quantity": 4,
+        "reorder_point": 2,
+        "unit_cost": 45,
+        "supplier": "Trelleborg",
+        "last_order_date": "2024-01-08"
+      },
+
+      "SPARE_005": {
+        "type": "SparePart",
+        "part_name": "Pressure Transducer 0-2500 bar",
+        "part_number": "PT-2500-4-20MA",
+        "compatible_component": "PRS_SET_01",
+        "stock_quantity": 2,
+        "reorder_point": 1,
+        "unit_cost": 320,
+        "supplier": "Kistler",
+        "last_order_date": "2023-09-12"
+      },
+
+      "SPARE_006": {
+        "type": "SparePart",
+        "part_name": "K-Type Thermocouple Probe",
+        "part_number": "TC-K-TYPE-300MM",
+        "compatible_component": "TMP_SET_01",
+        "stock_quantity": 5,
+        "reorder_point": 3,
+        "unit_cost": 65,
+        "supplier": "Omega Engineering",
+        "last_order_date": "2023-12-18"
+      },
+
+      "SPARE_007": {
+        "type": "SparePart",
+        "part_name": "Lithium Complex Grease",
+        "part_number": "GR-LC-EP2-5KG",
+        "compatible_component": "GB_01",
+        "stock_quantity": 15,
+        "reorder_point": 5,
+        "unit_cost": 28,
+        "supplier": "Shell",
+        "unit": "kg",
+        "last_order_date": "2024-01-22"
+      },
+
+      "SPARE_008": {
+        "type": "SparePart",
+        "part_name": "Hydraulic Hose DN16 2000mm",
+        "part_number": "HH-DN16-2M-4SP",
+        "compatible_component": "PMP_01",
+        "stock_quantity": 6,
+        "reorder_point": 3,
+        "unit_cost": 85,
+        "supplier": "Gates",
+        "last_order_date": "2023-11-28"
+      },
+
+      "SPARE_009": {
+        "type": "SparePart",
+        "part_name": "Check Valve 1/2 inch",
+        "part_number": "CV-12-150BAR",
+        "compatible_component": "VLV_SET_01",
+        "stock_quantity": 4,
+        "reorder_point": 2,
+        "unit_cost": 92,
+        "supplier": "Bosch Rexroth",
+        "last_order_date": "2023-12-05"
+      },
+
+      "SPARE_010": {
+        "type": "SparePart",
+        "part_name": "Relief Valve 180 bar",
+        "part_number": "RV-180-NG10",
+        "compatible_component": "PMP_01",
+        "stock_quantity": 2,
+        "reorder_point": 1,
+        "unit_cost": 245,
+        "supplier": "Hydac",
+        "last_order_date": "2023-10-15"
+      },
+
+      "SPARE_011": {
+        "type": "SparePart",
+        "part_name": "Screw Wear Plate",
+        "part_number": "SWP-55MM-BIMETAL",
+        "compatible_component": "SBA_01",
+        "stock_quantity": 1,
+        "reorder_point": 1,
+        "unit_cost": 1850,
+        "supplier": "Xaloy",
+        "last_order_date": "2023-08-20"
+      },
+
+      "SPARE_012": {
+        "type": "SparePart",
+        "part_name": "Non-Return Valve",
+        "part_number": "NRV-55MM-BALL",
+        "compatible_component": "SBA_01",
+        "stock_quantity": 1,
+        "reorder_point": 1,
+        "unit_cost": 680,
+        "supplier": "Meusburger",
+        "last_order_date": "2023-09-05"
+      },
+
+      "SPARE_013": {
+        "type": "SparePart",
+        "part_name": "Hydraulic Filter Cartridge 10 micron",
+        "part_number": "HFC-10-MICRON",
+        "compatible_component": "PF_01",
+        "stock_quantity": 8,
+        "reorder_point": 4,
+        "unit_cost": 42,
+        "supplier": "Filtrec",
+        "last_order_date": "2024-02-01"
+      },
+
       "FAIL_001": {
         "type": "Failure",
         "failure_name": "Screw Excessive Wear",
@@ -1071,6 +1228,119 @@
         "type": "causes",
         "label": "causes",
         "id": "FAIL_EDGE_023"
+      },
+
+      {
+        "source": "SPARE_001",
+        "target": "HS_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_001"
+      },
+      {
+        "source": "SPARE_002",
+        "target": "HS_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_002"
+      },
+      {
+        "source": "SPARE_003",
+        "target": "VLV_SET_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_003"
+      },
+      {
+        "source": "SPARE_004",
+        "target": "ACT_INJ_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_004"
+      },
+      {
+        "source": "SPARE_005",
+        "target": "PRS_SET_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_005"
+      },
+      {
+        "source": "SPARE_006",
+        "target": "TMP_SET_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_006"
+      },
+      {
+        "source": "SPARE_007",
+        "target": "GB_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_007"
+      },
+      {
+        "source": "SPARE_008",
+        "target": "PMP_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_008"
+      },
+      {
+        "source": "SPARE_009",
+        "target": "VLV_SET_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_009"
+      },
+      {
+        "source": "SPARE_010",
+        "target": "PMP_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_010"
+      },
+      {
+        "source": "SPARE_011",
+        "target": "SBA_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_011"
+      },
+      {
+        "source": "SPARE_012",
+        "target": "SBA_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_012"
+      },
+      {
+        "source": "SPARE_013",
+        "target": "PF_01",
+        "type": "compatible_with",
+        "label": "compatible_with",
+        "id": "SPARE_EDGE_013"
+      },
+      {
+        "source": "CORR_003",
+        "target": "SPARE_002",
+        "type": "used",
+        "label": "used",
+        "id": "SPARE_USE_001"
+      },
+      {
+        "source": "CORR_002",
+        "target": "SPARE_003",
+        "type": "used",
+        "label": "used",
+        "id": "SPARE_USE_002"
+      },
+      {
+        "source": "CORR_001",
+        "target": "SPARE_005",
+        "type": "used",
+        "label": "used",
+        "id": "SPARE_USE_003"
       }
     ]
   }

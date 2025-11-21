@@ -293,7 +293,7 @@ class OntologyParser:
             'machine', 'screwbarrelassembly', 'heatingsystem', 'injectiondrive',
             'fixedplaten', 'movingplaten', 'tiebars', 'guidebushings',
             'clampingmechanism', 'ejectorsystem', 'pump', 'valveset',
-            'actuator', 'hydraulicoil', 'heatexchanger', 'filter',
+            'actuator', 'heatexchanger', 'filter',
             'controller', 'hmi', 'sensorset', 'sensor', 'temperaturesensor',
             'mold'
         ]
@@ -310,8 +310,8 @@ class OntologyParser:
         if 'maintenancetask' in type_lower.replace('_', '') or 'maintenanceevent' in type_lower.replace('_', ''):
             return 'maintenance_activities'
 
-        # Materials and spare parts
-        if 'material' in type_lower.replace('_', ''):
+        # Materials and spare parts (including hydraulic oil)
+        if 'material' in type_lower.replace('_', '') or 'hydraulicoil' in type_lower.replace('_', '') or 'sparepart' in type_lower.replace('_', ''):
             return 'spare_parts_and_inventory'
 
         # Default to other
@@ -348,6 +348,19 @@ class OntologyParser:
             if material_name:
                 return material_name
 
+        # For SparePart, use part_name
+        if 'SparePart' in instance_type:
+            part_name = instance_data.get('part_name', '')
+            if part_name:
+                return part_name
+
+        # For HydraulicOil
+        if 'HydraulicOil' in instance_type:
+            oil_type = instance_data.get('oil_type', '')
+            if oil_type:
+                return f"Hydraulic Oil {oil_type}"
+            return "Hydraulic Oil"
+
         # For Mold, use mold_id
         if 'Mold' in instance_type:
             mold_id = instance_data.get('mold_id', '')
@@ -359,6 +372,114 @@ class OntologyParser:
             zone = instance_data.get('zone', '')
             if zone:
                 return f"Temperature Sensor {zone.replace('_', ' ').title()}"
+
+        # For ClampingMechanism
+        if 'ClampingMechanism' in instance_type:
+            mechanism_type = instance_data.get('mechanism_type', '')
+            if mechanism_type:
+                return f"{mechanism_type.replace('_', ' ').title()} Clamping Mechanism"
+            return "Clamping Mechanism"
+
+        # For EjectorSystem
+        if 'EjectorSystem' in instance_type:
+            system_type = instance_data.get('system_type', '')
+            if system_type:
+                return f"{system_type.title()} Ejector System"
+            return "Ejector System"
+
+        # For Pump
+        if 'Pump' in instance_type:
+            pump_type = instance_data.get('pump_type', '')
+            if pump_type:
+                return f"{pump_type.replace('_', ' ').title()} Pump"
+            return "Hydraulic Pump"
+
+        # For ValveSet
+        if 'ValveSet' in instance_type:
+            valve_type = instance_data.get('valve_type', '')
+            if valve_type:
+                return f"{valve_type.title()} Valve Set"
+            return "Valve Set"
+
+        # For Actuator
+        if 'Actuator' in instance_type:
+            function = instance_data.get('actuator_function', '')
+            if function:
+                return f"{function.replace('_', ' ').title()} Actuator"
+            return "Hydraulic Actuator"
+
+        # For HeatExchanger
+        if 'HeatExchanger' in instance_type:
+            return "Heat Exchanger"
+
+        # For Filter
+        if 'Filter' in instance_type:
+            filter_function = instance_data.get('filter_function', '')
+            if filter_function:
+                return f"{filter_function.title()} Filter"
+            return "Hydraulic Filter"
+
+        # For Controller
+        if 'Controller' in instance_type:
+            controller_type = instance_data.get('controller_type', '')
+            if controller_type:
+                return f"{controller_type.upper()} Controller"
+            return "PLC Controller"
+
+        # For HMI
+        if 'HMI' in instance_type:
+            hmi_type = instance_data.get('hmi_type', '')
+            if hmi_type:
+                return f"{hmi_type.title()} HMI"
+            return "HMI Panel"
+
+        # For SensorSet
+        if 'SensorSet' in instance_type:
+            sensor_function = instance_data.get('sensor_function', '')
+            if sensor_function:
+                return f"{sensor_function.title()} Sensors"
+            return "Sensor Set"
+
+        # For Sensor (generic)
+        if 'Sensor' in instance_type and 'Temperature' not in instance_type:
+            sensor_function = instance_data.get('sensor_function', '')
+            if sensor_function:
+                return f"{sensor_function.replace('_', ' ').title()} Sensor"
+            return "Sensor"
+
+        # For ScrewBarrelAssembly
+        if 'ScrewBarrelAssembly' in instance_type:
+            return "Screw & Barrel Assembly"
+
+        # For HeatingSystem
+        if 'HeatingSystem' in instance_type:
+            return "Barrel Heating System"
+
+        # For InjectionDrive
+        if 'InjectionDrive' in instance_type:
+            drive_type = instance_data.get('drive_type', '')
+            if drive_type:
+                return f"{drive_type.title()} Injection Drive"
+            return "Injection Drive"
+
+        # For FixedPlaten
+        if 'FixedPlaten' in instance_type:
+            return "Fixed Platen"
+
+        # For MovingPlaten
+        if 'MovingPlaten' in instance_type:
+            return "Moving Platen"
+
+        # For TieBars
+        if 'TieBars' in instance_type:
+            count = instance_data.get('count', '')
+            if count:
+                return f"Tie Bars Set ({count} bars)"
+            return "Tie Bars"
+
+        # For GuideBushings
+        if 'GuideBushings' in instance_type:
+            return "Guide Bushings"
 
         # For components with specific names, try to use descriptive properties
         # Otherwise use the instance_id
