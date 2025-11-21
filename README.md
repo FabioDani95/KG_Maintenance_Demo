@@ -53,17 +53,22 @@ http://localhost:5000
 ### 1. Carica l'Ontologia JSON
 
 - Clicca sul pulsante **"Scegli file"** nell'header
-- Seleziona il tuo file JSON di ontologia
-- Il sistema parsificherà automaticamente la struttura e creerà i nodi
+- Seleziona il tuo file JSON di ontologia (usa `defaultOntology.json` o `example_ontology.json` per testare)
+- Il sistema caricherà il file sul backend e mostrerà statistiche (numero di nodi e archi)
 
-### 2. Esplora il Grafo
+### 2. Analizza l'Ontologia
+
+- Clicca sul pulsante **"Analizza Ontologia"** che appare dopo il caricamento
+- Il sistema parsificherà la struttura e visualizzerà il grafo interattivo
+
+### 3. Esplora il Grafo
 
 - **Click su un nodo**: visualizza i dettagli nel pannello laterale
 - **Zoom**: usa i pulsanti + / - o la rotellina del mouse
 - **Pan**: trascina il grafo con il mouse
 - **Fit**: adatta il grafo alla finestra
 
-### 3. Filtra e Cerca
+### 4. Filtra e Cerca
 
 - **Filtri per categoria**: usa le checkbox nella sidebar
 - **Ricerca**: digita nel campo di ricerca per trovare nodi specifici
