@@ -105,12 +105,18 @@ class OntologyParser:
 
         # Process ABox instances if available
         if instances_data:
-            self._process_classes(
-                instances_data,
-                'root',
-                'root.instances',
-                node_type='instance'
-            )
+            self._process_instances(instances_data)
+
+        # Process explicit edges if available
+        # Check for edges in root_data first, then fallback to json_data
+        edges_data = None
+        for source in (root_data, json_data):
+            if isinstance(source, dict) and 'edges' in source and isinstance(source['edges'], list):
+                edges_data = source['edges']
+                break
+
+        if edges_data:
+            self._process_explicit_edges(edges_data)
 
         return self.nodes, self.edges
 
@@ -231,6 +237,52 @@ class OntologyParser:
                 if has_nested:
                     self._process_classes(value, node_id, node_id, node_type)
 
+    def _process_instances(self, instances: Dict):
+        """Process instances and create flat nodes (not recursive)"""
+        for instance_id, instance_data in instances.items():
+            if not isinstance(instance_data, dict):
+                continue
+
+            # Use the instance ID directly as the node ID
+            node_id = f"root.instances.{instance_id}"
+
+            # Get the instance type
+            instance_type = instance_data.get('type', 'Instance')
+            category = self._determine_category(instance_type, 'instances')
+
+            # Extract all properties (including 'type')
+            properties = {}
+            for key, value in instance_data.items():
+                # Store all properties as-is, without recursion
+                properties[key] = value
+
+            # Create node
+            node = {
+                'data': {
+                    'id': node_id,
+                    'label': instance_id,  # Use the ID as label
+                    'category': category,
+                    'color': self.CATEGORY_COLORS.get(category, self.CATEGORY_COLORS['other']),
+                    'size': 40,
+                    'path': node_id,
+                    'properties': properties,
+                    'node_type': 'instance'
+                }
+            }
+            self.nodes.append(node)
+
+            # Create hierarchical edge from root
+            edge = {
+                'data': {
+                    'id': f"root-{node_id}",
+                    'source': 'root',
+                    'target': node_id,
+                    'type': 'hierarchical'
+                },
+                'classes': 'hierarchical'
+            }
+            self.edges.append(edge)
+
     def _process_relationships(self, relationships: Dict):
         """Process relationships to create relational edges"""
         relationship_types = [
@@ -333,6 +385,63 @@ class OntologyParser:
     def _format_label(self, key: str) -> str:
         """Format a key as a display label"""
         return key.replace('_', ' ').title()
+
+    def _process_explicit_edges(self, edges_list: List[Dict]):
+        """Process explicit edges from the JSON edges section"""
+        for edge_def in edges_list:
+            if not isinstance(edge_def, dict):
+                continue
+
+            source = edge_def.get('source')
+            target = edge_def.get('target')
+            edge_type = edge_def.get('type', 'related')
+            edge_id = edge_def.get('id', f"edge-{len(self.edges)}")
+            label = edge_def.get('label', '')
+
+            if not source or not target:
+                continue
+
+            # Try to find node IDs by matching the instance IDs
+            source_node_id = self._find_instance_node(source)
+            target_node_id = self._find_instance_node(target)
+
+            if source_node_id and target_node_id:
+                # Determine edge class based on type
+                edge_class = 'causal' if edge_type == 'causal' else 'relational'
+
+                edge = {
+                    'data': {
+                        'id': edge_id,
+                        'source': source_node_id,
+                        'target': target_node_id,
+                        'type': edge_type,
+                        'label': label
+                    },
+                    'classes': edge_class
+                }
+
+                # Add any additional properties from the edge definition
+                for key, value in edge_def.items():
+                    if key not in ['source', 'target', 'type', 'id', 'label']:
+                        edge['data'][key] = value
+
+                self.edges.append(edge)
+
+    def _find_instance_node(self, instance_id: str) -> Optional[str]:
+        """Find the full node ID for an instance ID"""
+        # First try exact match with root.instances prefix
+        candidate = f"root.instances.{instance_id}"
+        if any(node['data']['id'] == candidate for node in self.nodes):
+            return candidate
+
+        # Try finding by partial match
+        for node in self.nodes:
+            node_id = node['data']['id']
+            if node_id.endswith(f".{instance_id}"):
+                return node_id
+
+        # If no match found, return None
+        return None
 
     def get_categories(self) -> List[Dict[str, str]]:
         """Get list of categories with colors"""
