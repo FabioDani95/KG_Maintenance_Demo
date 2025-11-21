@@ -3,435 +3,602 @@
     "version": "1.1",
     "domain": "Injection Molding Machine Maintenance",
 
-    "machine_instance": {
-      "machine_id": "IM-450T-ENGEL-2021-0721",
-      "manufacturer": "Engel",
-      "model": "Victory 450 Tech",
-      "serial_number": "ENG-2021-0721",
-      "year_of_manufacture": 2021,
-      "operational_status": "running",
-      "installation_location": "Plant_A_Line_4",
-      "running_hours_total": 18234,
-      "last_full_service_date": "2023-11-18"
-    },
-
-    "classes": {
-      "machine_components": { 
-        "injection_unit": {
-          "screw_barrel_assembly": {
-            "id": "SBA_01",
-            "properties": {
-              "screw_diameter": 55,
-              "l_d_ratio": 23,
-              "screw_profile": "general_purpose",
-              "wear_level": 21,
-              "material_family": ["PP", "ABS"],
-              "surface_hardening": "bimetallic_coating",
-              "last_overhaul_date": "2023-08-15",
-              "max_allowed_back_pressure": 190
-            },
-            "subcomponents": [
-              "plasticizing_screw_PS01",
-              "barrel_BRL01",
-              "non_return_valve_NRV01",
-              "nozzle_NZ01",
-              "screw_drive_motor_SDM01",
-              "injection_carriage_IC01"
-            ],
-            "runtime_data": {
-              "current_back_pressure": 112,
-              "screw_position_mm": 142.3,
-              "screw_rotation_speed_rpm": 165
-            }
-          },
-
-          "heating_system": {
-            "id": "HS_01",
-            "zones": ["zone_1", "zone_2", "zone_3", "zone_4", "nozzle"],
-            "properties": {
-              "temperature_setpoint": {
-                "zone_1": 210,
-                "zone_2": 215,
-                "zone_3": 220,
-                "zone_4": 225,
-                "nozzle": 235
-              },
-              "actual_temperature": {
-                "zone_1": 209,
-                "zone_2": 214,
-                "zone_3": 222,
-                "zone_4": 226,
-                "nozzle": 236
-              },
-              "heater_band_status": {
-                "zone_1": true,
-                "zone_2": true,
-                "zone_3": true,
-                "zone_4": true,
-                "nozzle": true
-              },
-              "heater_band_power": {
-                "zone_1": 2.8,
-                "zone_2": 3.1,
-                "zone_3": 3.0,
-                "zone_4": 2.9,
-                "nozzle": 3.2
-              },
-              "zone_deviation_alarm_threshold": 10
-            }
-          },
-
-          "injection_drive": {
-            "id": "ID_01",
-            "type": "hydraulic",
-            "properties": {
-              "max_injection_speed": 320,
-              "max_injection_pressure": 1800,
-              "servo_status": "active"
-            },
-            "runtime_data": {
-              "current_injection_speed": 244,
-              "current_injection_pressure": 1420
-            }
-          }
-        },
-
-        "clamping_unit": {
-          "structural_components": {
-            "fixed_platen": {
-              "id": "FP_01",
-              "properties": {
-                "parallelism_tolerance": 0.04,
-                "surface_condition": "good",
-                "max_mold_weight": 2600
-              }
-            },
-            "moving_platen": {
-              "id": "MP_01",
-              "properties": {
-                "alignment": 0.06,
-                "guide_wear": 14,
-                "max_opening_stroke": 520
-              }
-            },
-            "tie_bars": {
-              "id": "TB_SET_01",
-              "count": 4,
-              "properties": {
-                "elongation": {
-                  "tie_bar_1": 0.13,
-                  "tie_bar_2": 0.11,
-                  "tie_bar_3": 0.15,
-                  "tie_bar_4": 0.12
-                },
-                "thread_condition": "good",
-                "corrosion_level": 4
-              }
-            },
-            "guide_bushings": {
-              "id": "GB_01",
-              "properties": {
-                "clearance": 0.12,
-                "lubibration_status": "sufficient",
-                "grease_type": "lithium_complex"
-              }
-            }
-          },
-          "clamping_mechanism": {
-            "id": "CM_01",
-            "type": "toggle",
-            "properties": {
-              "clamping_force": 450,
-              "mold_height_adjustment": 220,
-              "toggle_pin_wear": 11,
-              "preclamping_force_profile": "standard"
-            }
-          },
-          "ejector_system": {
-            "id": "ES_01",
-            "type": "hydraulic",
-            "properties": {
-              "ejector_stroke": 92,
-              "ejector_force": 25,
-              "ejector_speed_profile": "fast"
-            }
-          }
-        },
-
-        "hydraulic_system": {
-          "pumps": {
-            "id": "PMP_01",
-            "types": "variable_displacement",
-            "properties": {
-              "flow_rate": 120,
-              "pressure": 1500,
-              "efficiency": 88,
-              "noise_level": 74,
-              "running_hours": 11240
-            }
-          },
-          "valves": {
-            "id": "VLV_SET_01",
-            "types": "proportional",
-            "properties": {
-              "response_time": 47,
-              "leakage_rate": 0.2,
-              "command_signal_type": "analog",
-              "last_cleaning_date": "2023-12-02"
-            }
-          },
-          "actuators": {
-            "injection_cylinder": {
-              "id": "ACT_INJ_01",
-              "stroke": 310,
-              "bore_diameter": 85
-            },
-            "clamping_cylinder": {
-              "id": "ACT_CLP_01",
-              "stroke": 530,
-              "bore_diameter": 140
-            },
-            "ejector_cylinder": {
-              "id": "ACT_EJT_01",
-              "stroke": 95,
-              "bore_diameter": 65
-            }
-          },
-          "hydraulic_oil": {
-            "id": "OIL_01",
-            "properties": {
-              "viscosity": 46,
-              "contamination_level": "ISO 18/15/12",
-              "temperature": 49,
-              "volume": 230,
-              "oil_type": "HLP46",
-              "last_change_date": "2023-06-09"
-            }
-          },
-          "cooling_system": {
-            "heat_exchanger": {
-              "id": "HX_01",
-              "capacity": 32,
-              "efficiency": 86,
-              "fouling_index": 9
-            },
-            "filters": {
-              "pressure_filter": {
-                "id": "PF_01",
-                "micron_rating": 10,
-                "condition": "good",
-                "differential_pressure": 0.8
-              },
-              "return_filter": {
-                "id": "RF_01",
-                "micron_rating": 25,
-                "condition": "acceptable",
-                "differential_pressure": 1.1
-              }
-            }
-          }
-        },
-
-        "control_system": {
-          "controller": {
-            "id": "CTRL_01",
-            "type": "PLC",
-            "properties": {
-              "firmware_version": "4.5.7",
-              "cpu_load": 46,
-              "memory_usage": 63,
-              "fieldbus_interfaces": ["OPC_UA", "Modbus_TCP", "Profinet"]
-            }
-          },
-          "hmi": {
-            "id": "HMI_01",
-            "type": "touchscreen",
-            "properties": {
-              "screen_size": 15,
-              "resolution": "1024x768",
-              "language_support": ["EN", "DE", "IT"]
-            }
-          },
-          "sensors": {
-            "pressure_sensors": {
-              "id": "PRS_SET_01",
-              "locations": ["injection", "hydraulic", "cavity"],
-              "properties": {
-                "range": 2500,
-                "accuracy": 0.5,
-                "calibration_date": "2023-07-15",
-                "signal_type": "4_20mA"
-              }
-            },
-            "temperature_sensors": {
-              "id": "TMP_SET_01",
-              "type": "thermocouple",
-              "locations": ["barrel", "mold", "oil"],
-              "properties": {
-                "accuracy": 1,
-                "response_time": 3,
-                "protection_class": "IP67"
-              }
-            },
-            "position_sensors": {
-              "id": "POS_01",
-              "type": "linear_transducer",
-              "locations": ["screw", "clamp", "ejector"],
-              "properties": {
-                "resolution": 0.01,
-                "repeatability": 0.02,
-                "reference_point_method": "end_stop_reference"
-              }
-            }
-          }
-        }
+    "instances": {
+      "IM-450T-ENGEL-2021-0721": {
+        "type": "Machine",
+        "manufacturer": "Engel",
+        "model": "Victory 450 Tech",
+        "serial_number": "ENG-2021-0721",
+        "year_of_manufacture": 2021,
+        "operational_status": "running",
+        "installation_location": "Plant_A_Line_4",
+        "running_hours_total": 18234,
+        "last_full_service_date": "2023-11-18"
       },
 
-      "maintenance_activities": {
-        "preventive_maintenance": {
-          "daily_checks": {
-            "frequency": "daily",
-            "tasks": [
-              {
-                "task_id": "DC001",
-                "description": "Check hydraulic oil level",
-                "component": "hydraulic_system.OIL_01",
-                "duration": 5,
-                "priority": "high",
-                "required_skill_level": "operator",
-                "tools_required": [],
-                "last_execution_date": "2024-02-11",
-                "last_result": "ok"
-              },
-              {
-                "task_id": "DC002",
-                "description": "Check cooling water temperature",
-                "component": "hydraulic_system.cooling_system.HX_01",
-                "duration": 3,
-                "priority": "high",
-                "required_skill_level": "operator",
-                "tools_required": [],
-                "last_execution_date": "2024-02-11",
-                "last_result": "18°C, within range"
-              },
-              {
-                "task_id": "DC003",
-                "description": "Visual inspection for leaks",
-                "component": "all",
-                "duration": 10,
-                "priority": "medium",
-                "required_skill_level": "operator",
-                "tools_required": ["flashlight", "cleaning_rags"],
-                "last_execution_date": "2024-02-11",
-                "last_result": "no_leaks_detected"
-              }
-            ]
-          },
-          "weekly_checks": {
-            "frequency": "weekly",
-            "tasks": [
-              {
-                "task_id": "WC001",
-                "description": "Lubricate tie bar bushings",
-                "component": "clamping_unit.structural_components.GB_01",
-                "duration": 20,
-                "priority": "high",
-                "required_skill_level": "maintenance_technician",
-                "tools_required": ["grease_gun"],
-                "last_execution_date": "2024-02-05",
-                "last_result": "completed"
-              }
-            ]
-          }
-        },
+      "SBA_01": {
+        "type": "ScrewBarrelAssembly",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "screw_diameter": 55,
+        "l_d_ratio": 23,
+        "screw_profile": "general_purpose",
+        "wear_level": 21,
+        "material_family": ["PP", "ABS"],
+        "surface_hardening": "bimetallic_coating",
+        "last_overhaul_date": "2023-08-15",
+        "max_allowed_back_pressure": 190,
+        "current_back_pressure": 112,
+        "screw_position_mm": 142.3,
+        "screw_rotation_speed_rpm": 165,
+        "subcomponents": [
+          "plasticizing_screw_PS01",
+          "barrel_BRL01",
+          "non_return_valve_NRV01",
+          "nozzle_NZ01",
+          "screw_drive_motor_SDM01",
+          "injection_carriage_IC01"
+        ]
+      },
 
-        "corrective_maintenance": {
-          "diagnostic_procedures": {
-            "fault_diagnosis": {
-              "methods": ["visual_inspection", "measurement", "testing", "analysis", "remote_diagnostics"],
-              "tools": ["multimeter", "pressure_gauge", "thermometer", "vibration_analyzer", "oscilloscope", "service_laptop"]
-            },
-            "component_replacement": {
-              "critical_spares": [
-                "heater_bands",
-                "thermocouples",
-                "hydraulic_valves",
-                "seals",
-                "filters",
-                "pressure_sensors",
-                "contactors"
-              ]
-            }
-          },
-          "failure_workflows": {
-            "steps": ["detect_failure", "classify_severity", "assign_technician", "perform_repair", "test_and_validate", "close_work_order"],
-            "roles_involved": ["operator", "maintenance_technician", "maintenance_supervisor"]
-          }
-        }
+      "HS_01": {
+        "type": "HeatingSystem",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "zones": ["zone_1", "zone_2", "zone_3", "zone_4", "nozzle"],
+        "temperature_setpoint": {
+          "zone_1": 210,
+          "zone_2": 215,
+          "zone_3": 220,
+          "zone_4": 225,
+          "nozzle": 235
+        },
+        "actual_temperature": {
+          "zone_1": 209,
+          "zone_2": 214,
+          "zone_3": 222,
+          "zone_4": 226,
+          "nozzle": 236
+        },
+        "heater_band_status": {
+          "zone_1": true,
+          "zone_2": true,
+          "zone_3": true,
+          "zone_4": true,
+          "nozzle": true
+        },
+        "heater_band_power": {
+          "zone_1": 2.8,
+          "zone_2": 3.1,
+          "zone_3": 3.0,
+          "zone_4": 2.9,
+          "nozzle": 3.2
+        },
+        "zone_deviation_alarm_threshold": 10
+      },
+
+      "ID_01": {
+        "type": "InjectionDrive",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "drive_type": "hydraulic",
+        "max_injection_speed": 320,
+        "max_injection_pressure": 1800,
+        "servo_status": "active",
+        "current_injection_speed": 244,
+        "current_injection_pressure": 1420
+      },
+
+      "FP_01": {
+        "type": "FixedPlaten",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "parallelism_tolerance": 0.04,
+        "surface_condition": "good",
+        "max_mold_weight": 2600
+      },
+
+      "MP_01": {
+        "type": "MovingPlaten",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "alignment": 0.06,
+        "guide_wear": 14,
+        "max_opening_stroke": 520
+      },
+
+      "TB_SET_01": {
+        "type": "TieBars",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "count": 4,
+        "elongation": {
+          "tie_bar_1": 0.13,
+          "tie_bar_2": 0.11,
+          "tie_bar_3": 0.15,
+          "tie_bar_4": 0.12
+        },
+        "thread_condition": "good",
+        "corrosion_level": 4
+      },
+
+      "GB_01": {
+        "type": "GuideBushings",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "clearance": 0.12,
+        "lubrication_status": "sufficient",
+        "grease_type": "lithium_complex"
+      },
+
+      "CM_01": {
+        "type": "ClampingMechanism",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "mechanism_type": "toggle",
+        "clamping_force": 450,
+        "mold_height_adjustment": 220,
+        "toggle_pin_wear": 11,
+        "preclamping_force_profile": "standard"
+      },
+
+      "ES_01": {
+        "type": "EjectorSystem",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "system_type": "hydraulic",
+        "ejector_stroke": 92,
+        "ejector_force": 25,
+        "ejector_speed_profile": "fast"
+      },
+
+      "PMP_01": {
+        "type": "Pump",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "pump_type": "variable_displacement",
+        "flow_rate": 120,
+        "pressure": 1500,
+        "efficiency": 88,
+        "noise_level": 74,
+        "running_hours": 11240
+      },
+
+      "VLV_SET_01": {
+        "type": "ValveSet",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "valve_type": "proportional",
+        "response_time": 47,
+        "leakage_rate": 0.2,
+        "command_signal_type": "analog",
+        "last_cleaning_date": "2023-12-02"
+      },
+
+      "ACT_INJ_01": {
+        "type": "Actuator",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "actuator_function": "injection",
+        "stroke": 310,
+        "bore_diameter": 85
+      },
+
+      "ACT_CLP_01": {
+        "type": "Actuator",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "actuator_function": "clamping",
+        "stroke": 530,
+        "bore_diameter": 140
+      },
+
+      "ACT_EJT_01": {
+        "type": "Actuator",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "actuator_function": "ejector",
+        "stroke": 95,
+        "bore_diameter": 65
+      },
+
+      "OIL_01": {
+        "type": "HydraulicOil",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "viscosity": 46,
+        "contamination_level": "ISO 18/15/12",
+        "temperature": 49,
+        "volume": 230,
+        "oil_type": "HLP46",
+        "last_change_date": "2023-06-09"
+      },
+
+      "HX_01": {
+        "type": "HeatExchanger",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "capacity": 32,
+        "efficiency": 86,
+        "fouling_index": 9
+      },
+
+      "PF_01": {
+        "type": "Filter",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "filter_function": "pressure",
+        "micron_rating": 10,
+        "condition": "good",
+        "differential_pressure": 0.8
+      },
+
+      "RF_01": {
+        "type": "Filter",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "filter_function": "return",
+        "micron_rating": 25,
+        "condition": "acceptable",
+        "differential_pressure": 1.1
+      },
+
+      "CTRL_01": {
+        "type": "Controller",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "controller_type": "PLC",
+        "firmware_version": "4.5.7",
+        "cpu_load": 46,
+        "memory_usage": 63,
+        "fieldbus_interfaces": ["OPC_UA", "Modbus_TCP", "Profinet"]
+      },
+
+      "HMI_01": {
+        "type": "HMI",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "hmi_type": "touchscreen",
+        "screen_size": 15,
+        "resolution": "1024x768",
+        "language_support": ["EN", "DE", "IT"]
+      },
+
+      "PRS_SET_01": {
+        "type": "SensorSet",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "sensor_function": "pressure",
+        "locations": ["injection", "hydraulic", "cavity"],
+        "range": 2500,
+        "accuracy": 0.5,
+        "calibration_date": "2023-07-15",
+        "signal_type": "4_20mA"
+      },
+
+      "TMP_SET_01": {
+        "type": "SensorSet",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "sensor_function": "temperature",
+        "sensor_type": "thermocouple",
+        "locations": ["barrel", "mold", "oil"],
+        "accuracy": 1,
+        "response_time": 3,
+        "protection_class": "IP67"
+      },
+
+      "POS_01": {
+        "type": "Sensor",
+        "machine": "IM-450T-ENGEL-2021-0721",
+        "sensor_function": "position",
+        "sensor_type": "linear_transducer",
+        "locations": ["screw", "clamp", "ejector"],
+        "resolution": 0.01,
+        "repeatability": 0.02,
+        "reference_point_method": "end_stop_reference"
+      },
+
+      "DC001": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "daily",
+        "description": "Check hydraulic oil level",
+        "component": "OIL_01",
+        "duration": 5,
+        "priority": "high",
+        "required_skill_level": "operator",
+        "tools_required": [],
+        "last_execution_date": "2024-02-11",
+        "last_result": "ok"
+      },
+
+      "DC002": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "daily",
+        "description": "Check cooling water temperature",
+        "component": "HX_01",
+        "duration": 3,
+        "priority": "high",
+        "required_skill_level": "operator",
+        "tools_required": [],
+        "last_execution_date": "2024-02-11",
+        "last_result": "18°C, within range"
+      },
+
+      "DC003": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "daily",
+        "description": "Visual inspection for leaks",
+        "component": "IM-450T-ENGEL-2021-0721",
+        "duration": 10,
+        "priority": "medium",
+        "required_skill_level": "operator",
+        "tools_required": ["flashlight", "cleaning_rags"],
+        "last_execution_date": "2024-02-11",
+        "last_result": "no_leaks_detected"
+      },
+
+      "WC001": {
+        "type": "MaintenanceTask",
+        "task_category": "preventive",
+        "frequency": "weekly",
+        "description": "Lubricate tie bar bushings",
+        "component": "GB_01",
+        "duration": 20,
+        "priority": "high",
+        "required_skill_level": "maintenance_technician",
+        "tools_required": ["grease_gun"],
+        "last_execution_date": "2024-02-05",
+        "last_result": "completed"
       }
     },
 
     "edges": [
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "SBA_01",
+        "type": "has_component",
+        "label": "machine has screw barrel assembly",
+        "id": "COMP_001"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "HS_01",
+        "type": "has_component",
+        "label": "machine has heating system",
+        "id": "COMP_002"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "ID_01",
+        "type": "has_component",
+        "label": "machine has injection drive",
+        "id": "COMP_003"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "FP_01",
+        "type": "has_component",
+        "label": "machine has fixed platen",
+        "id": "COMP_004"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "MP_01",
+        "type": "has_component",
+        "label": "machine has moving platen",
+        "id": "COMP_005"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "TB_SET_01",
+        "type": "has_component",
+        "label": "machine has tie bars",
+        "id": "COMP_006"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "GB_01",
+        "type": "has_component",
+        "label": "machine has guide bushings",
+        "id": "COMP_007"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "CM_01",
+        "type": "has_component",
+        "label": "machine has clamping mechanism",
+        "id": "COMP_008"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "ES_01",
+        "type": "has_component",
+        "label": "machine has ejector system",
+        "id": "COMP_009"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "PMP_01",
+        "type": "has_component",
+        "label": "machine has pump",
+        "id": "COMP_010"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "VLV_SET_01",
+        "type": "has_component",
+        "label": "machine has valve set",
+        "id": "COMP_011"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "ACT_INJ_01",
+        "type": "has_component",
+        "label": "machine has injection actuator",
+        "id": "COMP_012"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "ACT_CLP_01",
+        "type": "has_component",
+        "label": "machine has clamping actuator",
+        "id": "COMP_013"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "ACT_EJT_01",
+        "type": "has_component",
+        "label": "machine has ejector actuator",
+        "id": "COMP_014"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "OIL_01",
+        "type": "has_component",
+        "label": "machine has hydraulic oil",
+        "id": "COMP_015"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "HX_01",
+        "type": "has_component",
+        "label": "machine has heat exchanger",
+        "id": "COMP_016"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "PF_01",
+        "type": "has_component",
+        "label": "machine has pressure filter",
+        "id": "COMP_017"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "RF_01",
+        "type": "has_component",
+        "label": "machine has return filter",
+        "id": "COMP_018"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "CTRL_01",
+        "type": "has_component",
+        "label": "machine has controller",
+        "id": "COMP_019"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "HMI_01",
+        "type": "has_component",
+        "label": "machine has HMI",
+        "id": "COMP_020"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "PRS_SET_01",
+        "type": "has_component",
+        "label": "machine has pressure sensors",
+        "id": "COMP_021"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "TMP_SET_01",
+        "type": "has_component",
+        "label": "machine has temperature sensors",
+        "id": "COMP_022"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "POS_01",
+        "type": "has_component",
+        "label": "machine has position sensor",
+        "id": "COMP_023"
+      },
 
       {
-        "source": "hydraulic_system.OIL_01.properties.contamination_level",
-        "target": "hydraulic_system.pumps.PMP_01.properties.efficiency",
+        "source": "OIL_01",
+        "target": "PMP_01",
         "type": "causal",
-        "label": "contamination reduces pump efficiency",
+        "label": "oil contamination reduces pump efficiency",
         "id": "REL_001",
-        "probability": 0.8
+        "probability": 0.8,
+        "cause_property": "contamination_level",
+        "effect_property": "efficiency"
       },
 
       {
-        "source": "clamping_unit.structural_components.tie_bars.TB_SET_01.properties.elongation",
-        "target": "clamping_unit.clamping_mechanism.CM_01.properties.clamping_force",
+        "source": "TB_SET_01",
+        "target": "CM_01",
         "type": "causal",
-        "label": "elongation reduces clamping force",
+        "label": "tie bar elongation reduces clamping force",
         "id": "REL_002",
-        "probability": 0.9
+        "probability": 0.9,
+        "cause_property": "elongation",
+        "effect_property": "clamping_force"
       },
 
       {
-        "source": "injection_unit.heating_system.HS_01.properties.actual_temperature.zone_3",
-        "target": "injection_unit.screw_barrel_assembly.SBA_01.properties.wear_level",
+        "source": "HS_01",
+        "target": "SBA_01",
         "type": "causal",
         "label": "overheating increases screw wear",
         "id": "REL_003",
-        "probability": 0.7
+        "probability": 0.7,
+        "cause_property": "actual_temperature.zone_3",
+        "effect_property": "wear_level"
       },
 
       {
-        "source": "hydraulic_system.OIL_01.properties.oil_type",
-        "target": "hydraulic_system.pumps.PMP_01.properties.flow_rate",
+        "source": "OIL_01",
+        "target": "PMP_01",
         "type": "func_dep",
         "label": "oil specification affects pump flow",
-        "id": "REL_010"
+        "id": "REL_010",
+        "source_property": "oil_type",
+        "target_property": "flow_rate"
       },
 
       {
-        "source": "hydraulic_system.OIL_01.properties.contamination_level",
-        "target": "hydraulic_system.pumps.PMP_01.properties.pressure",
+        "source": "OIL_01",
+        "target": "PMP_01",
         "type": "func_dep",
         "label": "contamination affects pressure stability",
-        "id": "REL_011"
+        "id": "REL_011",
+        "source_property": "contamination_level",
+        "target_property": "pressure"
       },
 
       {
-        "source": "control_system.sensors.pressure_sensors.PRS_SET_01",
-        "target": "injection_unit.injection_drive.ID_01.properties.max_injection_speed",
+        "source": "PRS_SET_01",
+        "target": "ID_01",
         "type": "func_dep",
         "label": "sensor readings affect injection dynamics",
-        "id": "REL_012"
+        "id": "REL_012",
+        "target_property": "max_injection_speed"
       },
 
       {
-        "source": "control_system.sensors.position_sensors.POS_01",
-        "target": "clamping_unit.clamping_mechanism.CM_01.properties.clamping_force",
+        "source": "POS_01",
+        "target": "CM_01",
         "type": "func_dep",
         "label": "position sensing affects force control",
-        "id": "REL_013"
-      }
+        "id": "REL_013",
+        "target_property": "clamping_force"
+      },
 
+      {
+        "source": "DC001",
+        "target": "OIL_01",
+        "type": "maintains",
+        "label": "daily check monitors oil level",
+        "id": "MAINT_001"
+      },
+
+      {
+        "source": "DC002",
+        "target": "HX_01",
+        "type": "maintains",
+        "label": "daily check monitors cooling",
+        "id": "MAINT_002"
+      },
+
+      {
+        "source": "DC003",
+        "target": "IM-450T-ENGEL-2021-0721",
+        "type": "maintains",
+        "label": "daily inspection checks for leaks",
+        "id": "MAINT_003"
+      },
+
+      {
+        "source": "WC001",
+        "target": "GB_01",
+        "type": "maintains",
+        "label": "weekly lubrication maintains bushings",
+        "id": "MAINT_004"
+      }
     ]
   }
 }
