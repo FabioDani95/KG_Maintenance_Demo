@@ -3,7 +3,7 @@ Dynamic Ontology Parser
 Reads JSON ontology files and automatically generates graph nodes and edges
 """
 import json
-from typing import Dict, List, Any, Tuple
+from typing import Dict, List, Any, Tuple, Optional
 
 
 class OntologyParser:
@@ -65,20 +65,52 @@ class OntologyParser:
         # Find the root ontology object
         root_key, root_data = self._find_root(json_data)
 
-        if not root_key or not root_data:
-            raise ValueError("No valid ontology root found in JSON")
+        if not root_key or not isinstance(root_data, dict):
+            root_key = root_key or 'ontology'
+            root_data = json_data if isinstance(json_data, dict) else {}
+
+        classes_data = self._get_section(root_data, json_data, 'classes')
+        instances_data = self._get_section(root_data, json_data, 'instances')
+        instance_metadata = json_data.get('machine_instance') if isinstance(
+            json_data.get('machine_instance'), dict
+        ) else None
+
+        content_types = []
+        if classes_data:
+            content_types.append('TBox definitions')
+        if instances_data or instance_metadata:
+            content_types.append('ABox instances')
 
         # Create root node
-        root_node = self._create_root_node(root_key, root_data)
+        root_node = self._create_root_node(root_key, root_data, content_types)
         self.nodes.append(root_node)
 
-        # Process the ontology tree
-        if 'classes' in root_data:
-            self._process_classes(root_data['classes'], 'root', 'root')
+        # Process optional machine instance metadata (ABox)
+        if instance_metadata:
+            self._process_classes(
+                {'machine_instance': instance_metadata},
+                'root',
+                'root',
+                node_type='instance'
+            )
 
-        # Process relationships if present
-        if 'classes' in root_data and 'relationships' in root_data['classes']:
-            self._process_relationships(root_data['classes']['relationships'])
+        # Process TBox classes if available
+        if classes_data:
+            self._process_classes(classes_data, 'root', 'root', node_type='definition')
+
+            # Process relationships if present
+            relationships_data = classes_data.get('relationships')
+            if isinstance(relationships_data, dict):
+                self._process_relationships(relationships_data)
+
+        # Process ABox instances if available
+        if instances_data:
+            self._process_classes(
+                instances_data,
+                'root',
+                'root.instances',
+                node_type='instance'
+            )
 
         return self.nodes, self.edges
 
@@ -105,9 +137,26 @@ class OntologyParser:
 
         return None, None
 
-    def _create_root_node(self, root_key: str, root_data: Dict) -> Dict:
+    def _get_section(
+        self,
+        primary: Optional[Dict[str, Any]],
+        fallback: Optional[Dict[str, Any]],
+        key: str
+    ) -> Optional[Dict[str, Any]]:
+        """Return a named section searching root data first, then full JSON"""
+        for source in (primary, fallback):
+            if isinstance(source, dict) and key in source and isinstance(source[key], dict):
+                return source[key]
+        return None
+
+    def _create_root_node(
+        self,
+        root_key: str,
+        root_data: Dict,
+        content_types: Optional[List[str]] = None
+    ) -> Dict:
         """Create the root node"""
-        return {
+        properties = {
             'data': {
                 'id': 'root',
                 'label': self._format_label(root_key),
@@ -115,15 +164,30 @@ class OntologyParser:
                 'color': self.CATEGORY_COLORS['root'],
                 'size': 60,
                 'path': 'root',
-                'properties': {
-                    'version': root_data.get('version', 'N/A'),
-                    'domain': root_data.get('domain', 'N/A'),
-                    'description': root_data.get('description', 'N/A')
-                }
+                'node_type': 'root'
             }
         }
 
-    def _process_classes(self, classes: Dict, parent_id: str, parent_path: str):
+        root_properties = {
+            'version': root_data.get('version', 'N/A'),
+            'domain': root_data.get('domain', 'N/A'),
+            'description': root_data.get('description', 'N/A')
+        }
+
+        # Merge additional simple metadata from the root object
+        extracted_props = self._extract_properties(root_data)
+        for key, value in extracted_props.items():
+            if key in root_properties and root_properties[key] != 'N/A':
+                continue
+            root_properties[key] = value
+
+        if content_types:
+            root_properties['contains'] = content_types
+
+        properties['data']['properties'] = root_properties
+        return properties
+
+    def _process_classes(self, classes: Dict, parent_id: str, parent_path: str, node_type: str):
         """Recursively process classes and create nodes"""
         for key, value in classes.items():
             node_id = f"{parent_path}.{key}"
@@ -139,7 +203,8 @@ class OntologyParser:
                     'color': self.CATEGORY_COLORS.get(category, self.CATEGORY_COLORS['other']),
                     'size': 30 if is_leaf else 40,
                     'path': node_id,
-                    'properties': self._extract_properties(value)
+                    'properties': self._extract_properties(value),
+                    'node_type': node_type
                 }
             }
             self.nodes.append(node)
@@ -164,7 +229,7 @@ class OntologyParser:
                 )
 
                 if has_nested:
-                    self._process_classes(value, node_id, node_id)
+                    self._process_classes(value, node_id, node_id, node_type)
 
     def _process_relationships(self, relationships: Dict):
         """Process relationships to create relational edges"""

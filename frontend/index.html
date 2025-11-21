@@ -323,7 +323,7 @@
             <h1>Ontologia Manutenzione Macchine a Iniezione</h1>
             <p>Visualizzazione interattiva del grafo della conoscenza</p>
             <div id="file-upload-section">
-                <input type="file" id="file-input" accept=".json" />
+                <input type="file" id="file-input" accept=".json" multiple />
                 <button id="analyze-btn">Analizza Ontologia</button>
                 <span id="status-message">Nessun file caricato</span>
             </div>
@@ -348,7 +348,7 @@
             <div id="graph-container">
                 <div id="initial-message">
                     <h2>📊 Ontologia Manutenzione</h2>
-                    <p>Carica un file JSON e premi "Analizza Ontologia" per visualizzare il grafo</p>
+                    <p>Carica uno o più file JSON e premi "Analizza Ontologia" per visualizzare il grafo</p>
                 </div>
                 <div id="cy"></div>
                 <div id="graph-controls">
@@ -579,16 +579,16 @@
 
         // Handle file upload
         async function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+            const inputFiles = Array.from(event.target.files || []);
+            if (inputFiles.length === 0) return;
 
-            updateStatus('Caricamento in corso...', '');
+            updateStatus(`Caricamento di ${inputFiles.length} file...`, '');
 
             const formData = new FormData();
-            formData.append('file', file);
+            inputFiles.forEach(file => formData.append('files', file));
 
             try {
-                // Upload file to backend
+                // Upload file(s) to backend
                 const response = await fetch(`${API_BASE_URL}/upload`, {
                     method: 'POST',
                     body: formData
@@ -600,10 +600,13 @@
                     throw new Error(data.error || 'Errore nel caricamento');
                 }
 
-                updateStatus(`File caricato: ${data.stats.nodes} nodi, ${data.stats.edges} archi. Premi "Analizza" per visualizzare.`, 'success');
+                const processed = data.files_processed || inputFiles.length;
+                const label = processed > 1 ? `${processed} file` : 'File';
+                updateStatus(`${label} caricati: ${data.stats.nodes} nodi, ${data.stats.edges} archi. Premi "Analizza" per visualizzare.`, 'success');
 
                 // Show analyze button
                 document.getElementById('analyze-btn').classList.add('show');
+                event.target.value = '';
 
             } catch (error) {
                 updateStatus(`Errore: ${error.message}`, 'error');

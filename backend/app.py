@@ -22,6 +22,82 @@ FRONTEND_FOLDER = '../frontend'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
+def _sanitize_identifier(value: str) -> str:
+    """Return a filesystem/path friendly identifier"""
+    sanitized = ''.join(
+        ch if ch.isalnum() or ch in ('-', '_') else '_'
+        for ch in value.strip()
+    )
+    return sanitized or 'instance'
+
+
+def _ensure_unique_key(base: str, used: set) -> str:
+    """Ensure the generated key is unique in the combined dataset"""
+    candidate = base
+    suffix = 1
+    while candidate in used:
+        candidate = f"{base}_{suffix}"
+        suffix += 1
+    return candidate
+
+
+def _is_abox_document(data) -> bool:
+    """Detect if the JSON document represents an ABox"""
+    return isinstance(data, dict) and (
+        isinstance(data.get('instances'), dict) or
+        isinstance(data.get('machine_instance'), dict)
+    )
+
+
+def _combine_abox_documents(documents):
+    """Merge multiple ABox JSON documents under a single root"""
+    combined_instances = {}
+    used_keys = set()
+
+    for idx, doc in enumerate(documents, start=1):
+        data = doc['data']
+        metadata = data.get('machine_instance')
+        machine_id = None
+        if isinstance(metadata, dict):
+            machine_id = metadata.get('machine_id')
+
+        base_key = machine_id or os.path.splitext(doc['name'])[0] or f'instance_{idx}'
+        safe_key = _ensure_unique_key(_sanitize_identifier(base_key), used_keys)
+
+        entry = {}
+        if isinstance(metadata, dict):
+            entry['machine_instance'] = metadata
+
+        instances = data.get('instances')
+        if isinstance(instances, dict):
+            entry.update(instances)
+
+        combined_instances[safe_key] = entry
+        used_keys.add(safe_key)
+
+    return {
+        'combined_abox_dataset': {
+            'domain': 'ABox Instances Dataset',
+            'description': f'Combined dataset with {len(documents)} ABox file(s)',
+            'instances': combined_instances
+        }
+    }
+
+
+def _prepare_payload(documents):
+    """Return JSON payload to parse, combining ABox files when needed"""
+    if not documents:
+        raise ValueError('No valid JSON documents to parse')
+
+    if len(documents) == 1:
+        return documents[0]['data']
+
+    if all(_is_abox_document(doc['data']) for doc in documents):
+        return _combine_abox_documents(documents)
+
+    raise ValueError('Multi-file upload is supported only for ABox JSON files')
+
+
 @app.route('/')
 def serve_frontend():
     """Serve the main frontend page"""
@@ -40,41 +116,64 @@ def upload_ontology():
     global current_ontology
 
     try:
-        # Check if file is present
-        if 'file' not in request.files:
+        files = request.files.getlist('files')
+
+        if not files:
+            single = request.files.get('file')
+            if single:
+                files = [single]
+
+        if not files:
             return jsonify({'error': 'No file provided'}), 400
 
-        file = request.files['file']
+        documents = []
+        for uploaded in files:
+            if not uploaded or uploaded.filename == '':
+                continue
 
-        if file.filename == '':
-            return jsonify({'error': 'No file selected'}), 400
+            if not uploaded.filename.lower().endswith('.json'):
+                return jsonify({'error': f'File {uploaded.filename} must be a JSON file'}), 400
 
-        if not file.filename.endswith('.json'):
-            return jsonify({'error': 'File must be a JSON file'}), 400
+            try:
+                json_data = json.load(uploaded)
+            except json.JSONDecodeError as e:
+                return jsonify({'error': f'Invalid JSON in {uploaded.filename}: {str(e)}'}), 400
 
-        # Read and parse JSON
-        json_data = json.load(file)
+            documents.append({
+                'name': uploaded.filename,
+                'data': json_data
+            })
 
-        # Parse ontology
-        nodes, edges = parser.parse(json_data)
+        if not documents:
+            return jsonify({'error': 'No valid JSON files provided'}), 400
+
+        payload = _prepare_payload(documents)
+
+        # Parse ontology (new parser instance to avoid shared state)
+        parser_instance = OntologyParser()
+        nodes, edges = parser_instance.parse(payload)
 
         # Store current ontology
         current_ontology = {
             'nodes': nodes,
             'edges': edges,
-            'raw': json_data
+            'raw': payload,
+            'source_files': [doc['name'] for doc in documents]
         }
 
         return jsonify({
-            'message': 'Ontology loaded successfully',
+            'message': f'Loaded {len(documents)} file(s) successfully',
             'stats': {
                 'nodes': len(nodes),
                 'edges': len(edges)
-            }
+            },
+            'files_processed': len(documents)
         })
 
     except json.JSONDecodeError as e:
         return jsonify({'error': f'Invalid JSON: {str(e)}'}), 400
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
     except Exception as e:
         return jsonify({'error': f'Error processing ontology: {str(e)}'}), 500
 
