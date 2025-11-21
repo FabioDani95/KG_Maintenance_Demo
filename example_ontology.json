@@ -1,0 +1,309 @@
+{
+  "injection_molding_machine_maintenance_ontology": {
+    "version": "1.0",
+    "domain": "Manufacturing - Injection Molding",
+    "description": "Ontologia per la manutenzione di macchine a iniezione plastica",
+    "classes": {
+      "machine_components": {
+        "hydraulic_unit": {
+          "description": "Sistema idraulico principale",
+          "function": "Fornisce pressione per il movimento meccanico",
+          "typical_pressure": "150-200 bar"
+        },
+        "injection_unit": {
+          "description": "Unità di iniezione del materiale plastico",
+          "components": ["barrel", "screw", "nozzle"],
+          "max_temperature": "400°C"
+        },
+        "clamping_unit": {
+          "description": "Unità di chiusura stampo",
+          "force_range": "50-500 ton",
+          "type": "hydraulic"
+        },
+        "heating_system": {
+          "description": "Sistema di riscaldamento del materiale",
+          "zones": 5,
+          "control_type": "PID"
+        },
+        "control_panel": {
+          "description": "Pannello di controllo macchina",
+          "type": "PLC",
+          "manufacturer": "Siemens"
+        }
+      },
+      "maintenance_activities": {
+        "preventive_maintenance": {
+          "oil_change": {
+            "frequency": "6 months",
+            "estimated_time": "2 hours",
+            "required_skills": ["hydraulic_systems"]
+          },
+          "filter_replacement": {
+            "frequency": "3 months",
+            "estimated_time": "1 hour",
+            "required_skills": ["basic_mechanical"]
+          },
+          "heating_element_inspection": {
+            "frequency": "12 months",
+            "estimated_time": "3 hours",
+            "required_skills": ["electrical_systems"]
+          }
+        },
+        "corrective_maintenance": {
+          "hydraulic_leak_repair": {
+            "urgency": "high",
+            "estimated_time": "4 hours",
+            "required_skills": ["hydraulic_systems", "welding"]
+          },
+          "sensor_replacement": {
+            "urgency": "medium",
+            "estimated_time": "1 hour",
+            "required_skills": ["electronics"]
+          }
+        },
+        "predictive_maintenance": {
+          "vibration_analysis": {
+            "frequency": "continuous",
+            "threshold_alert": "3mm/s",
+            "action": "inspect bearings"
+          },
+          "temperature_monitoring": {
+            "frequency": "continuous",
+            "threshold_alert": ">80°C",
+            "action": "check cooling system"
+          }
+        }
+      },
+      "failures_and_anomalies": {
+        "hydraulic_failures": {
+          "pressure_drop": {
+            "severity": "high",
+            "typical_cause": "leak or pump failure",
+            "detection_method": "pressure sensor"
+          },
+          "oil_contamination": {
+            "severity": "medium",
+            "typical_cause": "filter degradation",
+            "detection_method": "oil analysis"
+          }
+        },
+        "thermal_anomalies": {
+          "overheating": {
+            "severity": "high",
+            "typical_cause": "cooling system failure",
+            "detection_method": "temperature sensor"
+          },
+          "uneven_heating": {
+            "severity": "medium",
+            "typical_cause": "heating element degradation",
+            "detection_method": "thermal imaging"
+          }
+        },
+        "mechanical_failures": {
+          "bearing_wear": {
+            "severity": "high",
+            "typical_cause": "lack of lubrication",
+            "detection_method": "vibration analysis"
+          },
+          "screw_wear": {
+            "severity": "medium",
+            "typical_cause": "abrasive materials",
+            "detection_method": "visual inspection"
+          }
+        }
+      },
+      "process_parameters": {
+        "injection_parameters": {
+          "injection_pressure": {
+            "unit": "bar",
+            "typical_range": "50-150",
+            "impact": "part quality"
+          },
+          "injection_speed": {
+            "unit": "mm/s",
+            "typical_range": "10-100",
+            "impact": "filling uniformity"
+          },
+          "holding_pressure": {
+            "unit": "bar",
+            "typical_range": "30-100",
+            "impact": "part density"
+          }
+        },
+        "temperature_parameters": {
+          "barrel_temperature": {
+            "unit": "°C",
+            "typical_range": "180-280",
+            "zones": 5
+          },
+          "mold_temperature": {
+            "unit": "°C",
+            "typical_range": "20-80",
+            "impact": "cooling time"
+          }
+        },
+        "cycle_parameters": {
+          "cycle_time": {
+            "unit": "seconds",
+            "typical_range": "20-120",
+            "factors": ["cooling", "injection", "opening"]
+          },
+          "cooling_time": {
+            "unit": "seconds",
+            "typical_range": "10-60",
+            "percentage_of_cycle": "60-70%"
+          }
+        }
+      },
+      "metrics_and_kpi": {
+        "machine_availability": {
+          "definition": "Percentage of time machine is operational",
+          "target": "95%",
+          "calculation": "(uptime / total_time) * 100"
+        },
+        "mean_time_between_failures": {
+          "definition": "Average time between failures",
+          "target": ">500 hours",
+          "unit": "hours"
+        },
+        "maintenance_cost_per_part": {
+          "definition": "Cost of maintenance per produced part",
+          "target": "<0.05 EUR",
+          "unit": "EUR"
+        },
+        "overall_equipment_effectiveness": {
+          "definition": "OEE metric combining availability, performance, quality",
+          "target": ">85%",
+          "calculation": "availability * performance * quality"
+        }
+      },
+      "spare_parts_and_inventory": {
+        "critical_parts": {
+          "hydraulic_pump": {
+            "stock_level": 1,
+            "reorder_point": 1,
+            "lead_time": "2 weeks",
+            "criticality": "high"
+          },
+          "heating_bands": {
+            "stock_level": 10,
+            "reorder_point": 3,
+            "lead_time": "1 week",
+            "criticality": "high"
+          }
+        },
+        "consumables": {
+          "hydraulic_oil": {
+            "stock_level": "200 liters",
+            "reorder_point": "50 liters",
+            "consumption_rate": "10 liters/month"
+          },
+          "filters": {
+            "stock_level": 20,
+            "reorder_point": 5,
+            "replacement_frequency": "quarterly"
+          }
+        }
+      },
+      "human_factors_and_skills": {
+        "required_skills": {
+          "hydraulic_systems": {
+            "level": "advanced",
+            "certification_required": true,
+            "training_hours": 40
+          },
+          "electrical_systems": {
+            "level": "intermediate",
+            "certification_required": true,
+            "training_hours": 24
+          },
+          "basic_mechanical": {
+            "level": "basic",
+            "certification_required": false,
+            "training_hours": 8
+          }
+        },
+        "operator_qualifications": {
+          "machine_operator": {
+            "experience_required": "6 months",
+            "certifications": ["safety", "basic_operation"],
+            "responsibilities": ["daily_inspection", "parameter_adjustment"]
+          },
+          "maintenance_technician": {
+            "experience_required": "2 years",
+            "certifications": ["hydraulics", "electrical", "safety"],
+            "responsibilities": ["scheduled_maintenance", "troubleshooting"]
+          }
+        }
+      },
+      "relationships": {
+        "causal_relationships": [
+          {
+            "source": "pressure_drop",
+            "target": "hydraulic_leak_repair",
+            "type": "causes",
+            "description": "Pressure drop in hydraulic system requires leak repair"
+          },
+          {
+            "source": "oil_contamination",
+            "target": "filter_replacement",
+            "type": "requires",
+            "description": "Contaminated oil requires filter replacement"
+          },
+          {
+            "source": "overheating",
+            "target": "temperature_monitoring",
+            "type": "detected_by",
+            "description": "Overheating detected by temperature monitoring"
+          },
+          {
+            "source": "bearing_wear",
+            "target": "vibration_analysis",
+            "type": "detected_by",
+            "description": "Bearing wear detected through vibration analysis"
+          }
+        ],
+        "functional_dependencies": [
+          {
+            "source": "hydraulic_unit",
+            "target": "injection_unit",
+            "type": "powers",
+            "description": "Hydraulic unit powers the injection unit"
+          },
+          {
+            "source": "hydraulic_unit",
+            "target": "clamping_unit",
+            "type": "powers",
+            "description": "Hydraulic unit powers the clamping unit"
+          },
+          {
+            "source": "heating_system",
+            "target": "injection_unit",
+            "type": "heats",
+            "description": "Heating system maintains injection unit temperature"
+          },
+          {
+            "source": "control_panel",
+            "target": "injection_parameters",
+            "type": "controls",
+            "description": "Control panel manages injection parameters"
+          }
+        ],
+        "temporal_relationships": [
+          {
+            "source": "oil_change",
+            "target": "filter_replacement",
+            "type": "precedes",
+            "description": "Oil change should be done before filter replacement"
+          },
+          {
+            "source": "preventive_maintenance",
+            "target": "corrective_maintenance",
+            "type": "prevents",
+            "description": "Regular preventive maintenance reduces corrective maintenance needs"
+          }
+        ]
+      }
+    }
+  }
+}
