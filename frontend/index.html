@@ -322,8 +322,10 @@
     </div>
 
     <script>
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:5000/api';
+
         // Global state
-        let ontologyData = null;
         let cy = null;
         let allNodes = [];
         let allEdges = [];
@@ -522,38 +524,37 @@
         }
 
         // Handle file upload
-        function handleFileUpload(event) {
+        async function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            const reader = new FileReader();
+            updateStatus('Caricamento in corso...', '');
 
-            reader.onload = function(e) {
-                try {
-                    const json = JSON.parse(e.target.result);
+            const formData = new FormData();
+            formData.append('file', file);
 
-                    // Validate JSON structure
-                    if (!json.injection_molding_machine_maintenance_ontology) {
-                        throw new Error('File JSON non valido: manca la root "injection_molding_machine_maintenance_ontology"');
-                    }
+            try {
+                // Upload file to backend
+                const response = await fetch(`${API_BASE_URL}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
 
-                    ontologyData = json.injection_molding_machine_maintenance_ontology;
-                    updateStatus('File caricato con successo', 'success');
+                const data = await response.json();
 
-                    // Build and render graph
-                    buildGraph();
-
-                } catch (error) {
-                    updateStatus(`Errore: ${error.message}`, 'error');
-                    console.error('Parsing error:', error);
+                if (!response.ok) {
+                    throw new Error(data.error || 'Errore nel caricamento');
                 }
-            };
 
-            reader.onerror = function() {
-                updateStatus('Errore nella lettura del file', 'error');
-            };
+                updateStatus(`File caricato: ${data.stats.nodes} nodi, ${data.stats.edges} archi`, 'success');
 
-            reader.readAsText(file);
+                // Fetch and render graph
+                await loadGraph();
+
+            } catch (error) {
+                updateStatus(`Errore: ${error.message}`, 'error');
+                console.error('Upload error:', error);
+            }
         }
 
         // Update status message
@@ -563,184 +564,27 @@
             statusEl.className = type;
         }
 
-        // Build graph from ontology data
-        function buildGraph() {
-            allNodes = [];
-            allEdges = [];
+        // Load graph from backend
+        async function loadGraph() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/graph`);
+                const data = await response.json();
 
-            // Create root node
-            const rootNode = {
-                data: {
-                    id: 'root',
-                    label: 'Ontologia Manutenzione',
-                    category: 'root',
-                    color: CATEGORIES.root.color,
-                    size: 60,
-                    path: 'root',
-                    properties: {
-                        version: ontologyData.version || 'N/A',
-                        domain: ontologyData.domain || 'N/A',
-                        description: ontologyData.description || 'N/A'
-                    }
+                if (!response.ok) {
+                    throw new Error(data.error || 'Errore nel caricamento del grafo');
                 }
-            };
-            allNodes.push(rootNode);
 
-            // Process classes
-            if (ontologyData.classes) {
-                processClasses(ontologyData.classes, 'root', 'root');
+                allNodes = data.nodes;
+                allEdges = data.edges;
+
+                // Render graph
+                renderGraph();
+                updateStats();
+
+            } catch (error) {
+                updateStatus(`Errore: ${error.message}`, 'error');
+                console.error('Load graph error:', error);
             }
-
-            // Process relationships
-            if (ontologyData.classes && ontologyData.classes.relationships) {
-                processRelationships(ontologyData.classes.relationships);
-            }
-
-            // Render graph
-            renderGraph();
-            updateStats();
-        }
-
-        // Process classes recursively
-        function processClasses(classes, parentId, parentPath) {
-            Object.entries(classes).forEach(([key, value]) => {
-                const nodeId = `${parentPath}.${key}`;
-                const category = determineCategory(key, parentPath);
-                const isLeaf = !isComplexObject(value);
-
-                // Create node
-                const node = {
-                    data: {
-                        id: nodeId,
-                        label: formatLabel(key),
-                        category: category,
-                        color: CATEGORIES[category]?.color || CATEGORIES.other.color,
-                        size: isLeaf ? 30 : 40,
-                        path: nodeId,
-                        properties: extractProperties(value)
-                    }
-                };
-                allNodes.push(node);
-
-                // Create hierarchical edge
-                allEdges.push({
-                    data: {
-                        id: `${parentId}-${nodeId}`,
-                        source: parentId,
-                        target: nodeId,
-                        type: 'hierarchical'
-                    },
-                    classes: 'hierarchical'
-                });
-
-                // Recurse if object has nested structure
-                if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-                    const hasNestedObjects = Object.values(value).some(v =>
-                        typeof v === 'object' && v !== null && !Array.isArray(v)
-                    );
-
-                    if (hasNestedObjects) {
-                        processClasses(value, nodeId, nodeId);
-                    }
-                }
-            });
-        }
-
-        // Process relationships to create relational edges
-        function processRelationships(relationships) {
-            const relationshipTypes = [
-                'causal_relationships',
-                'functional_dependencies',
-                'temporal_relationships'
-            ];
-
-            relationshipTypes.forEach(relType => {
-                if (!relationships[relType]) return;
-
-                const rels = relationships[relType];
-                if (Array.isArray(rels)) {
-                    rels.forEach((rel, idx) => {
-                        if (rel.source && rel.target) {
-                            const sourceId = findNodeByName(rel.source);
-                            const targetId = findNodeByName(rel.target);
-
-                            if (sourceId && targetId) {
-                                allEdges.push({
-                                    data: {
-                                        id: `rel-${relType}-${idx}`,
-                                        source: sourceId,
-                                        target: targetId,
-                                        type: 'relational',
-                                        relationType: rel.type || relType.replace('_', ' ')
-                                    },
-                                    classes: 'relational'
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        // Find node ID by name (fuzzy matching)
-        function findNodeByName(name) {
-            const normalized = name.toLowerCase().replace(/[_\s-]/g, '');
-            const node = allNodes.find(n => {
-                const nodeLabel = n.data.label.toLowerCase().replace(/[_\s-]/g, '');
-                return nodeLabel.includes(normalized) || normalized.includes(nodeLabel);
-            });
-            return node ? node.data.id : null;
-        }
-
-        // Determine category based on key and path
-        function determineCategory(key, path) {
-            // Check if key or path contains category keywords
-            for (const [category, info] of Object.entries(CATEGORIES)) {
-                if (path.includes(category) || key.includes(category)) {
-                    return category;
-                }
-            }
-
-            // Check for specific patterns
-            if (key.includes('failure') || key.includes('anomal')) return 'failures_and_anomalies';
-            if (key.includes('maintenance') || key.includes('repair')) return 'maintenance_activities';
-            if (key.includes('component') || key.includes('unit') || key.includes('system')) return 'machine_components';
-            if (key.includes('parameter') || key.includes('setting')) return 'process_parameters';
-            if (key.includes('metric') || key.includes('kpi')) return 'metrics_and_kpi';
-            if (key.includes('safety') || key.includes('compliance')) return 'safety_and_compliance';
-            if (key.includes('relationship') || key.includes('causal') || key.includes('temporal')) return 'relationships';
-
-            return 'other';
-        }
-
-        // Extract properties from value
-        function extractProperties(value) {
-            if (typeof value === 'object' && value !== null) {
-                const props = {};
-                Object.entries(value).forEach(([k, v]) => {
-                    if (!isComplexObject(v)) {
-                        props[k] = v;
-                    }
-                });
-                return props;
-            }
-            return { value: value };
-        }
-
-        // Check if object is complex (has nested objects)
-        function isComplexObject(obj) {
-            if (typeof obj !== 'object' || obj === null) return false;
-            if (Array.isArray(obj)) return false;
-            return Object.values(obj).some(v => typeof v === 'object' && v !== null && !Array.isArray(v));
-        }
-
-        // Format label for display
-        function formatLabel(key) {
-            return key
-                .replace(/_/g, ' ')
-                .split(' ')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
         }
 
         // Render graph
