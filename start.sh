@@ -25,7 +25,7 @@ fi
 
 echo "🚀 Avvio del backend server..."
 echo ""
-echo "Il server sarà disponibile su: http://localhost:5000"
+echo "Il server sarà disponibile su: http://localhost:8000"
 echo ""
 echo "Per fermare il server, premi CTRL+C"
 echo ""

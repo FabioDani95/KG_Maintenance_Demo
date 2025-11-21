@@ -39,13 +39,13 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Il server sarà disponibile su **http://localhost:5000**
+Il server sarà disponibile su **http://localhost:8000**
 
 ### 3. Aprire l'applicazione
 
 Aprire il browser e navigare su:
 ```
-http://localhost:5000
+http://localhost:8000
 ```
 
 ## 📖 Come Usare
@@ -186,12 +186,12 @@ pip install -r backend/requirements.txt
 ```
 
 ### Errore CORS
-Il backend ha già Flask-CORS configurato. Se persiste l'errore, verifica che il backend sia in esecuzione su localhost:5000
+Il backend ha già Flask-CORS configurato. Se persiste l'errore, verifica che il backend sia in esecuzione su localhost:8000
 
 ### Il grafo non si visualizza
 1. Verifica che il file JSON sia valido
 2. Controlla la console del browser per errori (F12)
-3. Verifica che il backend sia raggiungibile su http://localhost:5000
+3. Verifica che il backend sia raggiungibile su http://localhost:8000
 
 ## 📄 Licenza
 
