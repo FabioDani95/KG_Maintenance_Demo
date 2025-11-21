@@ -302,6 +302,10 @@ class OntologyParser:
             if comp_type in type_lower.replace('_', ''):
                 return 'machine_components'
 
+        # Failures and anomalies
+        if 'failure' in type_lower.replace('_', '') or 'anomaly' in type_lower.replace('_', ''):
+            return 'failures_and_anomalies'
+
         # Maintenance tasks and events
         if 'maintenancetask' in type_lower.replace('_', '') or 'maintenanceevent' in type_lower.replace('_', ''):
             return 'maintenance_activities'
@@ -316,6 +320,12 @@ class OntologyParser:
     def _get_instance_label(self, instance_id: str, instance_data: dict) -> str:
         """Generate human-readable label for an instance"""
         instance_type = instance_data.get('type', '')
+
+        # For Failure, use failure_name
+        if 'Failure' in instance_type or 'Anomaly' in instance_type:
+            failure_name = instance_data.get('failure_name', '')
+            if failure_name:
+                return failure_name
 
         # For MaintenanceTask, use description
         if 'MaintenanceTask' in instance_type or 'MaintenanceEvent' in instance_type:

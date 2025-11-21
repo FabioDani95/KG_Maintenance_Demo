@@ -480,6 +480,138 @@
         "drying_time": 2,
         "melt_temperature_range": [200, 240],
         "current_inventory_kg": 850
+      },
+
+      "FAIL_001": {
+        "type": "Failure",
+        "failure_name": "Screw Excessive Wear",
+        "severity": "high",
+        "detection_date": "2024-01-25",
+        "status": "monitoring",
+        "affected_component": "SBA_01",
+        "symptom": "wear_level_above_threshold",
+        "threshold_exceeded": 21
+      },
+
+      "FAIL_002": {
+        "type": "Failure",
+        "failure_name": "Hydraulic Oil Contamination",
+        "severity": "medium",
+        "detection_date": "2024-02-01",
+        "status": "active",
+        "affected_component": "OIL_01",
+        "symptom": "contamination_detected",
+        "contamination_class": "ISO 18/15/12"
+      },
+
+      "FAIL_003": {
+        "type": "Failure",
+        "failure_name": "Heater Band Failure Zone 3",
+        "severity": "critical",
+        "detection_date": "2023-11-30",
+        "status": "resolved",
+        "affected_component": "HS_01",
+        "symptom": "thermal_overload",
+        "resolution_date": "2023-11-30"
+      },
+
+      "FAIL_004": {
+        "type": "Failure",
+        "failure_name": "Pressure Sensor Drift",
+        "severity": "medium",
+        "detection_date": "2024-01-10",
+        "status": "resolved",
+        "affected_component": "PRS_SET_01",
+        "symptom": "sensor_reading_drift",
+        "resolution_date": "2024-01-10"
+      },
+
+      "FAIL_005": {
+        "type": "Failure",
+        "failure_name": "Temperature Deviation Zone 3",
+        "severity": "medium",
+        "detection_date": "2024-02-11",
+        "status": "active",
+        "affected_component": "TMP_ZONE_3",
+        "symptom": "reading_above_setpoint",
+        "deviation_celsius": 2
+      },
+
+      "FAIL_006": {
+        "type": "Failure",
+        "failure_name": "Hydraulic Valve Leakage",
+        "severity": "high",
+        "detection_date": "2023-12-15",
+        "status": "resolved",
+        "affected_component": "VLV_SET_01",
+        "symptom": "seal_wear_leakage",
+        "resolution_date": "2023-12-15"
+      },
+
+      "FAIL_007": {
+        "type": "Failure",
+        "failure_name": "Mold Cavity Partial Clogging",
+        "severity": "low",
+        "detection_date": "2024-01-28",
+        "status": "monitoring",
+        "affected_component": "MOLD_01",
+        "symptom": "uneven_filling_pattern",
+        "affected_cavities": [2, 4]
+      },
+
+      "FAIL_008": {
+        "type": "Failure",
+        "failure_name": "Material Moisture Content High",
+        "severity": "medium",
+        "detection_date": "2024-02-05",
+        "status": "resolved",
+        "affected_component": "MAT_PP_01",
+        "symptom": "moisture_above_spec",
+        "resolution": "extended_drying_cycle"
+      },
+
+      "FAIL_009": {
+        "type": "Failure",
+        "failure_name": "Screw Slip During Injection",
+        "severity": "high",
+        "detection_date": "2024-01-18",
+        "status": "monitoring",
+        "affected_component": "SBA_01",
+        "symptom": "inconsistent_shot_size",
+        "frequency": "intermittent"
+      },
+
+      "FAIL_010": {
+        "type": "Failure",
+        "failure_name": "Clamping Force Loss",
+        "severity": "critical",
+        "detection_date": "2024-02-03",
+        "status": "active",
+        "affected_component": "CM_01",
+        "symptom": "force_below_setpoint",
+        "force_loss_percentage": 8
+      },
+
+      "FAIL_011": {
+        "type": "Failure",
+        "failure_name": "Cooling System Efficiency Drop",
+        "severity": "medium",
+        "detection_date": "2024-01-22",
+        "status": "monitoring",
+        "affected_component": "HX_01",
+        "symptom": "fouling_detected",
+        "efficiency_drop_percentage": 14
+      },
+
+      "FAIL_012": {
+        "type": "Failure",
+        "failure_name": "Hydraulic Filter Saturation",
+        "severity": "high",
+        "detection_date": "2024-02-08",
+        "status": "monitoring",
+        "affected_component": "PF_01",
+        "symptom": "differential_pressure_high",
+        "pressure_differential": 0.8
       }
     },
 
@@ -487,370 +619,458 @@
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "SBA_01",
-        "type": "has_component",
-        "label": "machine has screw barrel assembly",
+        "type": "has",
+        "label": "has",
         "id": "COMP_001"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "HS_01",
-        "type": "has_component",
-        "label": "machine has heating system",
+        "type": "has",
+        "label": "has",
         "id": "COMP_002"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "ID_01",
-        "type": "has_component",
-        "label": "machine has injection drive",
+        "type": "has",
+        "label": "has",
         "id": "COMP_003"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "FP_01",
-        "type": "has_component",
-        "label": "machine has fixed platen",
+        "type": "has",
+        "label": "has",
         "id": "COMP_004"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "MP_01",
-        "type": "has_component",
-        "label": "machine has moving platen",
+        "type": "has",
+        "label": "has",
         "id": "COMP_005"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "TB_SET_01",
-        "type": "has_component",
-        "label": "machine has tie bars",
+        "type": "has",
+        "label": "has",
         "id": "COMP_006"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "GB_01",
-        "type": "has_component",
-        "label": "machine has guide bushings",
+        "type": "has",
+        "label": "has",
         "id": "COMP_007"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "CM_01",
-        "type": "has_component",
-        "label": "machine has clamping mechanism",
+        "type": "has",
+        "label": "has",
         "id": "COMP_008"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "ES_01",
-        "type": "has_component",
-        "label": "machine has ejector system",
+        "type": "has",
+        "label": "has",
         "id": "COMP_009"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "PMP_01",
-        "type": "has_component",
-        "label": "machine has pump",
+        "type": "has",
+        "label": "has",
         "id": "COMP_010"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "VLV_SET_01",
-        "type": "has_component",
-        "label": "machine has valve set",
+        "type": "has",
+        "label": "has",
         "id": "COMP_011"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "ACT_INJ_01",
-        "type": "has_component",
-        "label": "machine has injection actuator",
+        "type": "has",
+        "label": "has",
         "id": "COMP_012"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "ACT_CLP_01",
-        "type": "has_component",
-        "label": "machine has clamping actuator",
+        "type": "has",
+        "label": "has",
         "id": "COMP_013"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "ACT_EJT_01",
-        "type": "has_component",
-        "label": "machine has ejector actuator",
+        "type": "has",
+        "label": "has",
         "id": "COMP_014"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "OIL_01",
-        "type": "has_component",
-        "label": "machine has hydraulic oil",
+        "type": "has",
+        "label": "has",
         "id": "COMP_015"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "HX_01",
-        "type": "has_component",
-        "label": "machine has heat exchanger",
+        "type": "has",
+        "label": "has",
         "id": "COMP_016"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "PF_01",
-        "type": "has_component",
-        "label": "machine has pressure filter",
+        "type": "has",
+        "label": "has",
         "id": "COMP_017"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "RF_01",
-        "type": "has_component",
-        "label": "machine has return filter",
+        "type": "has",
+        "label": "has",
         "id": "COMP_018"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "CTRL_01",
-        "type": "has_component",
-        "label": "machine has controller",
+        "type": "has",
+        "label": "has",
         "id": "COMP_019"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "HMI_01",
-        "type": "has_component",
-        "label": "machine has HMI",
+        "type": "has",
+        "label": "has",
         "id": "COMP_020"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "PRS_SET_01",
-        "type": "has_component",
-        "label": "machine has pressure sensors",
+        "type": "has",
+        "label": "has",
         "id": "COMP_021"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "TMP_SET_01",
-        "type": "has_component",
-        "label": "machine has temperature sensors",
+        "type": "has",
+        "label": "has",
         "id": "COMP_022"
       },
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "POS_01",
-        "type": "has_component",
-        "label": "machine has position sensor",
+        "type": "has",
+        "label": "has",
         "id": "COMP_023"
       },
-
-      {
-        "source": "OIL_01",
-        "target": "PMP_01",
-        "type": "causal",
-        "label": "oil contamination reduces pump efficiency",
-        "id": "REL_001",
-        "probability": 0.8,
-        "cause_property": "contamination_level",
-        "effect_property": "efficiency"
-      },
-
-      {
-        "source": "TB_SET_01",
-        "target": "CM_01",
-        "type": "causal",
-        "label": "tie bar elongation reduces clamping force",
-        "id": "REL_002",
-        "probability": 0.9,
-        "cause_property": "elongation",
-        "effect_property": "clamping_force"
-      },
-
-      {
-        "source": "HS_01",
-        "target": "SBA_01",
-        "type": "causal",
-        "label": "overheating increases screw wear",
-        "id": "REL_003",
-        "probability": 0.7,
-        "cause_property": "actual_temperature.zone_3",
-        "effect_property": "wear_level"
-      },
-
-      {
-        "source": "OIL_01",
-        "target": "PMP_01",
-        "type": "func_dep",
-        "label": "oil specification affects pump flow",
-        "id": "REL_010",
-        "source_property": "oil_type",
-        "target_property": "flow_rate"
-      },
-
-      {
-        "source": "OIL_01",
-        "target": "PMP_01",
-        "type": "func_dep",
-        "label": "contamination affects pressure stability",
-        "id": "REL_011",
-        "source_property": "contamination_level",
-        "target_property": "pressure"
-      },
-
-      {
-        "source": "PRS_SET_01",
-        "target": "ID_01",
-        "type": "func_dep",
-        "label": "sensor readings affect injection dynamics",
-        "id": "REL_012",
-        "target_property": "max_injection_speed"
-      },
-
-      {
-        "source": "POS_01",
-        "target": "CM_01",
-        "type": "func_dep",
-        "label": "position sensing affects force control",
-        "id": "REL_013",
-        "target_property": "clamping_force"
-      },
-
-      {
-        "source": "DC001",
-        "target": "OIL_01",
-        "type": "maintains",
-        "label": "daily check monitors oil level",
-        "id": "MAINT_001"
-      },
-
-      {
-        "source": "DC002",
-        "target": "HX_01",
-        "type": "maintains",
-        "label": "daily check monitors cooling",
-        "id": "MAINT_002"
-      },
-
-      {
-        "source": "DC003",
-        "target": "IM-450T-ENGEL-2021-0721",
-        "type": "maintains",
-        "label": "daily inspection checks for leaks",
-        "id": "MAINT_003"
-      },
-
-      {
-        "source": "WC001",
-        "target": "GB_01",
-        "type": "maintains",
-        "label": "weekly lubrication maintains bushings",
-        "id": "MAINT_004"
-      },
-
-      {
-        "source": "WC002",
-        "target": "HS_01",
-        "type": "maintains",
-        "label": "weekly inspection monitors heater bands",
-        "id": "MAINT_005"
-      },
-
-      {
-        "source": "MC001",
-        "target": "PF_01",
-        "type": "maintains",
-        "label": "monthly maintenance replaces filters",
-        "id": "MAINT_006"
-      },
-
-      {
-        "source": "MC002",
-        "target": "PRS_SET_01",
-        "type": "maintains",
-        "label": "monthly calibration maintains sensor accuracy",
-        "id": "MAINT_007"
-      },
-
-      {
-        "source": "MC003",
-        "target": "SBA_01",
-        "type": "maintains",
-        "label": "monthly inspection monitors wear",
-        "id": "MAINT_008"
-      },
-
-      {
-        "source": "CORR_001",
-        "target": "PRS_SET_01",
-        "type": "documents_failure",
-        "label": "corrective event on pressure sensor",
-        "id": "CORR_EDGE_001"
-      },
-
-      {
-        "source": "CORR_002",
-        "target": "VLV_SET_01",
-        "type": "documents_failure",
-        "label": "corrective event on valve set",
-        "id": "CORR_EDGE_002"
-      },
-
-      {
-        "source": "CORR_003",
-        "target": "HS_01",
-        "type": "documents_failure",
-        "label": "corrective event on heating system",
-        "id": "CORR_EDGE_003"
-      },
-
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "TMP_ZONE_1",
-        "type": "has_sensor",
-        "label": "machine has temperature sensor zone 1",
+        "type": "has",
+        "label": "has",
         "id": "SENS_001"
       },
-
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "TMP_ZONE_2",
-        "type": "has_sensor",
-        "label": "machine has temperature sensor zone 2",
+        "type": "has",
+        "label": "has",
         "id": "SENS_002"
       },
-
       {
         "source": "IM-450T-ENGEL-2021-0721",
         "target": "TMP_ZONE_3",
-        "type": "has_sensor",
-        "label": "machine has temperature sensor zone 3",
+        "type": "has",
+        "label": "has",
         "id": "SENS_003"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "MOLD_01",
+        "type": "uses",
+        "label": "uses",
+        "id": "USE_001"
+      },
+      {
+        "source": "IM-450T-ENGEL-2021-0721",
+        "target": "MAT_PP_01",
+        "type": "processes",
+        "label": "processes",
+        "id": "PROC_001"
       },
 
       {
         "source": "TMP_ZONE_3",
         "target": "HS_01",
         "type": "monitors",
-        "label": "sensor monitors heating system",
+        "label": "monitors",
         "id": "MON_001"
       },
 
       {
-        "source": "IM-450T-ENGEL-2021-0721",
-        "target": "MOLD_01",
-        "type": "uses",
-        "label": "machine uses mold",
-        "id": "USE_001"
+        "source": "DC001",
+        "target": "OIL_01",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_001"
+      },
+      {
+        "source": "DC002",
+        "target": "HX_01",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_002"
+      },
+      {
+        "source": "DC003",
+        "target": "IM-450T-ENGEL-2021-0721",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_003"
+      },
+      {
+        "source": "WC001",
+        "target": "GB_01",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_004"
+      },
+      {
+        "source": "WC002",
+        "target": "HS_01",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_005"
+      },
+      {
+        "source": "MC001",
+        "target": "PF_01",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_006"
+      },
+      {
+        "source": "MC002",
+        "target": "PRS_SET_01",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_007"
+      },
+      {
+        "source": "MC003",
+        "target": "SBA_01",
+        "type": "maintains",
+        "label": "maintains",
+        "id": "MAINT_008"
       },
 
       {
-        "source": "IM-450T-ENGEL-2021-0721",
+        "source": "CORR_001",
+        "target": "PRS_SET_01",
+        "type": "documents",
+        "label": "documents",
+        "id": "CORR_EDGE_001"
+      },
+      {
+        "source": "CORR_002",
+        "target": "VLV_SET_01",
+        "type": "documents",
+        "label": "documents",
+        "id": "CORR_EDGE_002"
+      },
+      {
+        "source": "CORR_003",
+        "target": "HS_01",
+        "type": "documents",
+        "label": "documents",
+        "id": "CORR_EDGE_003"
+      },
+
+      {
+        "source": "FAIL_001",
+        "target": "SBA_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_001"
+      },
+      {
+        "source": "MC003",
+        "target": "FAIL_001",
+        "type": "detects",
+        "label": "detects",
+        "id": "FAIL_EDGE_002"
+      },
+      {
+        "source": "FAIL_001",
+        "target": "FAIL_009",
+        "type": "causes",
+        "label": "causes",
+        "id": "FAIL_EDGE_003"
+      },
+
+      {
+        "source": "FAIL_002",
+        "target": "OIL_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_004"
+      },
+      {
+        "source": "FAIL_002",
+        "target": "PMP_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_005"
+      },
+      {
+        "source": "DC001",
+        "target": "FAIL_002",
+        "type": "detects",
+        "label": "detects",
+        "id": "FAIL_EDGE_006"
+      },
+
+      {
+        "source": "FAIL_003",
+        "target": "HS_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_007"
+      },
+      {
+        "source": "CORR_003",
+        "target": "FAIL_003",
+        "type": "resolves",
+        "label": "resolves",
+        "id": "FAIL_EDGE_008"
+      },
+
+      {
+        "source": "FAIL_004",
+        "target": "PRS_SET_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_009"
+      },
+      {
+        "source": "CORR_001",
+        "target": "FAIL_004",
+        "type": "resolves",
+        "label": "resolves",
+        "id": "FAIL_EDGE_010"
+      },
+
+      {
+        "source": "FAIL_005",
+        "target": "TMP_ZONE_3",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_011"
+      },
+      {
+        "source": "TMP_ZONE_3",
+        "target": "FAIL_005",
+        "type": "indicates",
+        "label": "indicates",
+        "id": "FAIL_EDGE_012"
+      },
+      {
+        "source": "FAIL_005",
+        "target": "HS_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_013"
+      },
+
+      {
+        "source": "FAIL_006",
+        "target": "VLV_SET_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_014"
+      },
+      {
+        "source": "CORR_002",
+        "target": "FAIL_006",
+        "type": "resolves",
+        "label": "resolves",
+        "id": "FAIL_EDGE_015"
+      },
+
+      {
+        "source": "FAIL_007",
+        "target": "MOLD_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_016"
+      },
+
+      {
+        "source": "FAIL_008",
         "target": "MAT_PP_01",
-        "type": "processes",
-        "label": "machine processes material",
-        "id": "PROC_001"
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_017"
+      },
+
+      {
+        "source": "FAIL_009",
+        "target": "SBA_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_018"
+      },
+
+      {
+        "source": "FAIL_010",
+        "target": "CM_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_019"
+      },
+      {
+        "source": "FAIL_010",
+        "target": "TB_SET_01",
+        "type": "caused_by",
+        "label": "caused_by",
+        "id": "FAIL_EDGE_020"
+      },
+
+      {
+        "source": "FAIL_011",
+        "target": "HX_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_021"
+      },
+
+      {
+        "source": "FAIL_012",
+        "target": "PF_01",
+        "type": "affects",
+        "label": "affects",
+        "id": "FAIL_EDGE_022"
+      },
+      {
+        "source": "FAIL_012",
+        "target": "FAIL_002",
+        "type": "causes",
+        "label": "causes",
+        "id": "FAIL_EDGE_023"
       }
     ]
   }
